@@ -12,6 +12,14 @@ body {
     color: white;
 }
 
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
 
 .img{
 	display: block;
@@ -23,3 +31,4 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 }
+
