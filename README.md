@@ -16,3 +16,6 @@ This is a machine learning-powered crop recommendation system using Flask, Tenso
 2. To run the app:
     ```sh
     python app.py
+
+3. Add API key from Google AI Studio to access the model
+   

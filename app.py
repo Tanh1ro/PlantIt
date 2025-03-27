@@ -148,7 +148,7 @@ UPLOAD_FOLDER = 'uploaded_images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyAk8AJy0Emha5FHsFVXpcZpgQGX9ndkM-8")
+genai.configure(api_key="API_Key")
 
 # Load trained ML models
 rf_model = joblib.load("rf_model.pkl")
