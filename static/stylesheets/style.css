@@ -1,0 +1,14 @@
+.weather{
+	margin-bottom: 3em
+}
+
+.img{
+	display: block;
+	margin-left: auto;
+  margin-right: auto;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}

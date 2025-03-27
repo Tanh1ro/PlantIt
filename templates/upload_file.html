@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <div style="text-align:center">
+    <h1 style="margin-bottom: 3em;"> Upload the image </h1>
+    <div style="text-align:center;">
+    <form action = "{{url_for("success")}}" method = "post" enctype="multipart/form-data">
+        Choose image  <input type="file" name="file" required/>
+        <br></br><br></br>
+        Enter the city name  <input type="text" name="city"  style="margin-bottom: 3em; text-align:center;" required/>
+        <br>
+        <button style="text-align:center" class="btn btn-dark" type="submit" value="Upload"> Upload </button>
+    </form>
+    </div>
+
+{% endblock %}

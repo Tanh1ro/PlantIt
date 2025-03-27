@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div style="text-align:center">
+
+  <h1 style="text-align:center; color:rgb(255, 255, 255); margin-bottom: 1em;">
+      Farmer's assistant
+  </h1>
+
+<h4 style="margin-bottom: 1em; color:aliceblue;" >
+  Farmer's assistant provides you soil information and suggest's crops that are best suited to grow in your field along with their optimum conditions using our AI and also brings you latest agricultual updates.
+<h4>
+
+          <img src="/static/images/agri.jpg" style="width:60%;height:auto;">
+        <div id="suggest">
+          <br></br>
+          <h4 style="text-align:center; color:aliceblue;"> Upload soil image to get insights </h4>
+          <form action="{{ url_for('upload') }}">
+            <div style="text-align:center">
+              <button style="text-align:center" class="btn btn-dark" type="submit"> Upload </button>
+            </div>
+          </form>
+        </div>
+</div>
+
+{% endblock %}

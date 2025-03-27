@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center">Crop Prediction Results</h2>
+    <div class="alert alert-success text-center">
+        <h4>🌾 Predicted Crop: {{ predicted_crop }}</h4>
+    </div>
+    <div class="alert alert-info">
+        <h5>🤖 AI Suggestion:</h5>
+        <p>{{ recommendation }}</p>
+    </div>
+    <a href="{{ url_for('crop_prediction') }}" class="btn btn-secondary btn-block">Try Again</a>
+</div>
+{% endblock %}
