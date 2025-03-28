@@ -148,7 +148,7 @@ UPLOAD_FOLDER = 'uploaded_images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Configure Gemini API
-genai.configure(api_key="API_Key")
+genai.configure(api_key="AIzaSyAk8AJy0Emha5FHsFVXpcZpgQGX9ndkM-8")
 
 # Load trained ML models
 rf_model = joblib.load("rf_model.pkl")
@@ -160,6 +160,31 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def get_scheme_recommendations(user_input):
+    prompt = f"""
+    Based on the following user inputs, recommend the most suitable Indian government schemes for farmers:
+    {user_input}
+    """
+    model = genai.GenerativeModel("gemini-1.5-pro")
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
+@app.route('/schemes', methods=['GET', 'POST'])
+def schemes():
+    recommendations = None
+    if request.method == 'POST':
+        user_input = {
+            "income_support": request.form.get("income_support", "no").lower(),
+            "insurance": request.form.get("insurance", "no").lower(),
+            "credit": request.form.get("credit", "no").lower(),
+            "irrigation": request.form.get("irrigation", "no").lower(),
+            "soil_health": request.form.get("soil_health", "no").lower(),
+            "livestock": request.form.get("livestock", "no").lower(),
+            "market_access": request.form.get("market_access", "no").lower(),
+            "organic_farming": request.form.get("organic_farming", "no").lower()
+        }
+        recommendations = get_scheme_recommendations(user_input)
+    return render_template('schemes.html', recommendations=recommendations)
 @app.route('/')
 def upload():
     return render_template('index.html')
@@ -167,10 +192,6 @@ def upload():
 @app.route('/news', methods=['GET'])
 def news():
     return render_template('news.html')
-
-@app.route('/schemes', methods=['GET'])
-def schemes():
-    return render_template('schemes.html')
 
 @app.route('/crop-prediction', methods=['GET', 'POST'])
 def crop_prediction():
