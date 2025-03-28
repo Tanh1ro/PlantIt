@@ -1,7 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<h2>Find Suitable Government Schemes for Farmers</h2>
 
-<rssapp-list id="HYwzGFwRw7xnssLb"></rssapp-list><script src="https://widget.rss.app/v1/list.js" type="text/javascript" async></script>
+<form method="POST">
+    <label><input type="checkbox" name="income_support"> Income Support</label><br>
+    <label><input type="checkbox" name="insurance"> Insurance</label><br>
+    <label><input type="checkbox" name="credit"> Credit Facilities</label><br>
+    <label><input type="checkbox" name="irrigation"> Irrigation Support</label><br>
+    <label><input type="checkbox" name="soil_health"> Soil Health Improvement</label><br>
+    <label><input type="checkbox" name="livestock"> Livestock & Dairy Farming</label><br>
+    <label><input type="checkbox" name="market_access"> Market Access</label><br>
+    <label><input type="checkbox" name="organic_farming"> Organic Farming</label><br>
+    
+    <button type="submit">Get Recommendations</button>
+</form>
+
+{% if recommendations %}
+    <h3>Recommended Schemes:</h3>
+    <p>{{ recommendations }}</p>
+{% endif %}
 
 {% endblock %}

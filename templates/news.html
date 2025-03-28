@@ -1,7 +1,17 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
-  <rssapp-list id="TORqzTS26fIhxq9v"></rssapp-list><script src="https://widget.rss.app/v1/list.js" type="text/javascript" async></script>
-
+<h2>Latest Farmers News</h2>
+{% if articles %}
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                <p>{{ article.summary }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No news available. Try again later.</p>
+{% endif %}
 {% endblock %}

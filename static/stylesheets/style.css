@@ -1,14 +1,87 @@
-.weather{
-	margin-bottom: 3em
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    height: 100%;
+    background-color: #0a1535;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px;
+    min-height: 100vh;
 }
 
-.img{
-	display: block;
-	margin-left: auto;
-  margin-right: auto;
+.container {
+    flex: 1; /* Pushes footer to bottom */
+    min-height: 100vh;
+    padding: 80px 20px 120px; /* Ensures enough space */
 }
 
-.centered {
-	margin-left: auto;
-	margin-right: auto;
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(10, 21, 53, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+/* Footer */
+footer {
+    position: relative; /* Ensures it doesn't overlap content */
+    bottom: 0;
+    width: 100%;
+    background: #0a1535;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+section.top {
+    padding-top: 30px;
+    margin-bottom: 48px;
+}
+
+section.top ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 600px) {
+    section.top ul {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Ensures page scrolls properly */
+html {
+    scroll-behavior: smooth;
+}
+
+.weather-container {
+    text-align: center;
+    margin-top: 80px;  /* Ensures it's below the navbar */
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.weatherwidget-io {
+    display: block;
+    width: 100% !important;
+    height: 120px !important; /* Ensures visibility */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
