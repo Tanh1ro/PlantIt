@@ -135,10 +135,15 @@ import google.generativeai as genai
 import tensorflow as tf
 import numpy as np
 from keras.preprocessing import image
+import requests
+from bs4 import BeautifulSoup
 from flask import Flask, request, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import feedparser
+from newspaper import Article
+
 
 # Database setup
 engine = create_engine("postgresql://postgres:Hanuman#30@localhost:5432/postgres")
@@ -149,6 +154,27 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Configure Gemini API
 genai.configure(api_key="AIzaSyAk8AJy0Emha5FHsFVXpcZpgQGX9ndkM-8")
+
+NEWS_API_KEY = "9486ec6418b046d08213528320b97651"
+NEWS_URL = "https://newsapi.org/v2/top-headlines"
+
+def fetch_news():
+    params = {
+    "q": "agriculture OR farming OR crops OR rural",
+    "country": "in",
+    "language": "en",
+    "apiKey": NEWS_API_KEY
+}
+    response = requests.get(NEWS_URL, params=params)
+    
+    print(response.json())
+    
+    if response.status_code != 200:
+        return []
+
+    data = response.json()
+    return data.get("articles", [])
+
 
 # Load trained ML models
 rf_model = joblib.load("rf_model.pkl")
@@ -168,6 +194,32 @@ def get_scheme_recommendations(user_input):
     model = genai.GenerativeModel("gemini-1.5-pro")
     response = model.generate_content(prompt)
     return response.text.strip()
+
+def fetch_google_news():
+    feed_url = "https://news.google.com/rss/search?q=indian+farmers&hl=en-IN&gl=IN&ceid=IN:en"
+    feed = feedparser.parse(feed_url)
+
+    articles = []
+    for entry in feed.entries[:5]:  # Fetch top 5 news articles
+        article_url = entry.link
+        try:
+            article = Article(article_url)
+            article.download()
+            article.parse()
+            article.nlp()
+            summary = article.summary
+        except Exception:
+            summary = "Summary not available"
+
+        articles.append({
+            "title": entry.title,
+            "url": article_url,
+            "summary": summary
+        })
+        time.sleep(1)  # Avoid getting blocked
+
+    return articles
+
 
 @app.route('/schemes', methods=['GET', 'POST'])
 def schemes():
@@ -189,9 +241,13 @@ def schemes():
 def upload():
     return render_template('index.html')
 
-@app.route('/news', methods=['GET'])
+@app.route('/news')
 def news():
-    return render_template('news.html')
+    articles = fetch_news()
+    if not articles:  
+        articles = fetch_google_news()
+    return render_template('news.html', articles=articles)
+
 
 @app.route('/crop-prediction', methods=['GET', 'POST'])
 def crop_prediction():
