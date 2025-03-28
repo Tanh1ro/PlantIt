@@ -69,8 +69,4 @@ Open a browser and go to:
 - Add multilingual support for farmers.  
 - Expand crop disease detection using deep learning.  
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## License
-This project is licensed under the MIT License.
