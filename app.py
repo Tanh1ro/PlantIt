@@ -243,11 +243,23 @@ def upload():
 
 @app.route('/news')
 def news():
-    articles = fetch_news()
+    articles = fetch_news()  # Try NewsAPI first
     if not articles:  
-        articles = fetch_google_news()
+        articles = fetch_google_news()  # Use Google RSS if NewsAPI fails
     return render_template('news.html', articles=articles)
 
+# @app.route('/news')
+# def news():
+#     articles = newsapi.get_everything(q="agriculture OR farming OR crops", language="en", sort_by="publishedAt", page_size=10)
+    
+#     if not articles['articles']:
+#         return render_template('news.html', articles=None)
+
+#     return render_template('news.html', articles=articles['articles'])
+
+# @app.route('/schemes', methods=['GET'])
+# def schemes():
+#     return render_template('schemes.html')
 
 @app.route('/crop-prediction', methods=['GET', 'POST'])
 def crop_prediction():
@@ -283,6 +295,10 @@ def crop_prediction():
         return render_template('crop_prediction.html', predicted_crop=predicted_crop, recommendation=gemini_recommendation)
     
     return render_template('crop_input.html')
+
+@app.route('/about-us')
+def about_us():
+    return render_template('about_us.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
