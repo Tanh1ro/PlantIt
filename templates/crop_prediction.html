@@ -2,14 +2,71 @@
 
 {% block body %}
 <div class="container">
-    <h2 class="text-center">Crop Prediction Results</h2>
-    <div class="alert alert-success text-center">
-        <h4>🌾 Predicted Crop: {{ predicted_crop }}</h4>
+    <h1 style="text-align:center">Crop Prediction Results</h1>
+    <h2 style="text-align:center">&#8595;</h2><br></br>
+
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-success text-center" style="margin-bottom: 2em;">
+                <h4>🌾 Predicted Crop: {{ predicted_crop }}</h4>
+            </div>
+        </div>
     </div>
-    <div class="alert alert-info">
-        <h5>🤖 AI Suggestion:</h5>
-        <p>{{ recommendation }}</p>
+
+    <div class="row">
+        <div class="col">
+            <div style="margin-bottom: 2em; text-align:center">
+                <h5>AI Recommendations</h5>
+            </div>
+            <table style="width: 100%; margin: auto; text-align:center;" class="table table-bordered table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="text-align: center; color: white;" scope="col">Recommendation Type</th>
+                        <th style="text-align: center; color: white;" scope="col">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: white; width: 30%;">Primary Recommendation</td>
+                        <td style="color: white; text-align: left;">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                {% if recommendation %}
+                                    {% for point in recommendation.split('\n') %}
+                                        {% if point.strip() and not "alternative" in point.lower() and not "enhance" in point.lower() and not "suggest" in point.lower() and not "millets" in point.lower() and not "sorghum" in point.lower() and not "cowpea" in point.lower() and not "groundnut" in point.lower() and not "sustainable" in point.lower() and not "practices" in point.lower() %}
+                                            <li style="margin-bottom: 10px;">• {{ point.strip() }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <li>No recommendation available</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: white; width: 30%;">Alternative Crops & Sustainable Practices</td>
+                        <td style="color: white; text-align: left;">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                {% if recommendation %}
+                                    {% for point in recommendation.split('\n') %}
+                                        {% if point.strip() and ("alternative" in point.lower() or "enhance" in point.lower() or "suggest" in point.lower() or "millets" in point.lower() or "sorghum" in point.lower() or "cowpea" in point.lower() or "groundnut" in point.lower() or "sustainable" in point.lower() or "practices" in point.lower()) %}
+                                            <li style="margin-bottom: 10px;">• {{ point.strip() }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <li>No alternative crops or sustainable practices available</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <a href="{{ url_for('crop_prediction') }}" class="btn btn-secondary btn-block">Try Again</a>
+
+    <div class="row" style="margin-top: 2em;">
+        <div class="col text-center">
+            <a href="{{ url_for('crop_prediction') }}" class="btn btn-primary">Try Another Prediction</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

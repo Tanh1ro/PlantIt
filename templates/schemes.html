@@ -1,24 +1,53 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h2>Find Suitable Government Schemes for Farmers</h2>
 
-<form method="POST">
-    <label><input type="checkbox" name="income_support"> Income Support</label><br>
-    <label><input type="checkbox" name="insurance"> Insurance</label><br>
-    <label><input type="checkbox" name="credit"> Credit Facilities</label><br>
-    <label><input type="checkbox" name="irrigation"> Irrigation Support</label><br>
-    <label><input type="checkbox" name="soil_health"> Soil Health Improvement</label><br>
-    <label><input type="checkbox" name="livestock"> Livestock & Dairy Farming</label><br>
-    <label><input type="checkbox" name="market_access"> Market Access</label><br>
-    <label><input type="checkbox" name="organic_farming"> Organic Farming</label><br>
-    
-    <button type="submit">Get Recommendations</button>
-</form>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/schemes.css') }}">
+<div class="schemes-container">
+    <h2>Find Suitable Government Schemes for Farmers</h2>
 
-{% if recommendations %}
-    <h3>Recommended Schemes:</h3>
-    <p>{{ recommendations }}</p>
-{% endif %}
+    <form method="POST" class="scheme-form">
+        <div class="scheme-option">
+            <input type="checkbox" name="income_support" id="income_support">
+            <label for="income_support">Income Support</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="insurance" id="insurance">
+            <label for="insurance">Insurance</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="credit" id="credit">
+            <label for="credit">Credit Facilities</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="irrigation" id="irrigation">
+            <label for="irrigation">Irrigation Support</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="soil_health" id="soil_health">
+            <label for="soil_health">Soil Health Improvement</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="livestock" id="livestock">
+            <label for="livestock">Livestock & Dairy Farming</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="market_access" id="market_access">
+            <label for="market_access">Market Access</label>
+        </div>
+        <div class="scheme-option">
+            <input type="checkbox" name="organic_farming" id="organic_farming">
+            <label for="organic_farming">Organic Farming</label>
+        </div>
+        
+        <button type="submit">Get Recommendations</button>
+    </form>
 
+    {% if recommendations %}
+        <div class="recommendations">
+            <h3>Recommended Schemes:</h3>
+            <p>{{ recommendations }}</p>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

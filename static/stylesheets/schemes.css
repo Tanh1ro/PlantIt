@@ -1,0 +1,94 @@
+.schemes-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+h2 {
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.scheme-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.scheme-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: var(--content-bg);
+    border-radius: 8px;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.scheme-option:hover {
+    transform: translateX(5px);
+    box-shadow: var(--box-shadow);
+    background-color: rgba(46, 125, 50, 0.05);
+}
+
+.scheme-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.scheme-option label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 2px 5px rgba(46, 125, 50, 0.3);
+    font-weight: 600;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.4);
+}
+
+.recommendations {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--content-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--box-shadow);
+}
+
+.recommendations h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.recommendations p {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1.1rem;
+}

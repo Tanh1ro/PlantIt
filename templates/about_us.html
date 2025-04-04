@@ -1,8 +1,88 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-white">About Us</h1>
-    <p class="text-white">Welcome to PlantIt, your go-to agricultural assistant.</p>
+<div class="about-container">
+    <section class="app-info">
+        <h1>About PlantIt</h1>
+        <div class="app-description">
+            <p>PlantIt is a comprehensive agricultural assistant platform designed to empower farmers with smart technology solutions. Our mission is to bridge the gap between traditional farming practices and modern technology.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Crop Prediction</h3>
+                    <p>AI-powered crop recommendations based on soil and weather conditions</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Price Prediction</h3>
+                    <p>Market analysis and price forecasting for better decision making</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-newspaper"></i>
+                    <h3>Agricultural News</h3>
+                    <p>Latest updates and trends in the agricultural sector</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Government Schemes</h3>
+                    <p>Information about available government schemes and subsidies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Team Member 1">
+                </div>
+                <div class="team-info">
+                    <h3>John Doe</h3>
+                    <p class="role">Lead Developer</p>
+                    <p class="bio">Passionate about AI and machine learning applications in agriculture. Developed the core prediction algorithms.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Team Member 2">
+                </div>
+                <div class="team-info">
+                    <h3>Jane Smith</h3>
+                    <p class="role">UI/UX Designer</p>
+                    <p class="bio">Specialized in creating intuitive interfaces for agricultural applications. Focused on user experience.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Team Member 3">
+                </div>
+                <div class="team-info">
+                    <h3>Mike Johnson</h3>
+                    <p class="role">Agricultural Expert</p>
+                    <p class="bio">Brings years of farming experience and knowledge to ensure accurate agricultural recommendations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
