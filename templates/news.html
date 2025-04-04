@@ -1,16 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<!-- Main News Container -->
 <div class="container">
+    <!-- Page Title -->
     <h2 class="text-center mb-4">Latest Agricultural News</h2>
+    
+    <!-- News Articles Grid -->
     <div class="news-grid">
         {% if articles %}
+            <!-- Loop through available articles -->
             {% for article in articles %}
+                <!-- Individual News Card -->
                 <div class="news-card">
                     <div class="news-content">
+                        <!-- Article Title with Link -->
                         <h3 class="news-title">
                             <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
                         </h3>
+                        
+                        <!-- Article Summary/Description -->
                         <p class="news-summary">
                             {% if article.description %}
                                 {{ article.description }}
@@ -20,6 +29,8 @@
                                 No summary available
                             {% endif %}
                         </p>
+                        
+                        <!-- Read More Link -->
                         <a href="{{ article.url }}" class="news-link" target="_blank">
                             Read More <i class="fas fa-arrow-right"></i>
                         </a>
@@ -27,6 +38,7 @@
                 </div>
             {% endfor %}
         {% else %}
+            <!-- No News Available Message -->
             <div class="no-news">
                 <p>No news available at the moment. Please check back later.</p>
             </div>
@@ -36,7 +48,9 @@
 {% endblock %}
 
 {% block styles %}
+<!-- Custom Styles for News Page -->
 <style>
+    /* News Grid Layout */
     .news-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -44,6 +58,7 @@
         padding: 20px;
     }
 
+    /* News Card Styling */
     .news-card {
         background: white;
         border-radius: 8px;
@@ -52,11 +67,13 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+    /* Hover Effect for News Cards */
     .news-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
+    /* News Title Styling */
     .news-title {
         margin-bottom: 10px;
     }
@@ -66,11 +83,13 @@
         text-decoration: none;
     }
 
+    /* News Summary Styling */
     .news-summary {
         color: #666;
         margin-bottom: 15px;
     }
 
+    /* Read More Link Styling */
     .news-link {
         color: #007bff;
         text-decoration: none;
@@ -82,6 +101,7 @@
         margin-left: 5px;
     }
 
+    /* No News Message Styling */
     .no-news {
         text-align: center;
         padding: 20px;
@@ -90,6 +110,8 @@
 </style>
 {% endblock %}
 
-<!-- Add required scripts -->
+<!-- Required Scripts -->
+<!-- Font Awesome for Icons -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<!-- Custom News JavaScript -->
 <script src="{{ url_for('static', filename='js/news.js') }}"></script>

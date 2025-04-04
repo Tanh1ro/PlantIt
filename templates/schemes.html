@@ -1,48 +1,69 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
+<!-- Link to Custom CSS for Schemes Page -->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/schemes.css') }}">
+
+<!-- Main Schemes Container -->
 <div class="schemes-container">
+    <!-- Page Title -->
     <h2>Find Suitable Government Schemes for Farmers</h2>
 
+    <!-- Scheme Selection Form -->
     <form method="POST" class="scheme-form">
+        <!-- Income Support Option -->
         <div class="scheme-option">
             <input type="checkbox" name="income_support" id="income_support">
             <label for="income_support">Income Support</label>
         </div>
+
+        <!-- Insurance Option -->
         <div class="scheme-option">
             <input type="checkbox" name="insurance" id="insurance">
             <label for="insurance">Insurance</label>
         </div>
+
+        <!-- Credit Facilities Option -->
         <div class="scheme-option">
             <input type="checkbox" name="credit" id="credit">
             <label for="credit">Credit Facilities</label>
         </div>
+
+        <!-- Irrigation Support Option -->
         <div class="scheme-option">
             <input type="checkbox" name="irrigation" id="irrigation">
             <label for="irrigation">Irrigation Support</label>
         </div>
+
+        <!-- Soil Health Improvement Option -->
         <div class="scheme-option">
             <input type="checkbox" name="soil_health" id="soil_health">
             <label for="soil_health">Soil Health Improvement</label>
         </div>
+
+        <!-- Livestock & Dairy Farming Option -->
         <div class="scheme-option">
             <input type="checkbox" name="livestock" id="livestock">
             <label for="livestock">Livestock & Dairy Farming</label>
         </div>
+
+        <!-- Market Access Option -->
         <div class="scheme-option">
             <input type="checkbox" name="market_access" id="market_access">
             <label for="market_access">Market Access</label>
         </div>
+
+        <!-- Organic Farming Option -->
         <div class="scheme-option">
             <input type="checkbox" name="organic_farming" id="organic_farming">
             <label for="organic_farming">Organic Farming</label>
         </div>
         
+        <!-- Submit Button -->
         <button type="submit">Get Recommendations</button>
     </form>
 
+    <!-- Recommendations Display Section -->
     {% if recommendations %}
         <div class="recommendations">
             <h3>Recommended Schemes:</h3>

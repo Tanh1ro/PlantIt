@@ -1,14 +1,26 @@
+/* About Page Stylesheet
+   Contains styles for the About Us page and its components
+*/
+
+/* Main Container
+   Centered container with max-width and padding
+*/
 .about-container {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 2rem;
 }
 
-/* App Info Section */
+/* Application Information Section
+   Styling for the main app description
+*/
 .app-info {
     margin-bottom: 4rem;
 }
 
+/* Main Title
+   Styling for the page title
+*/
 .app-info h1 {
     color: var(--primary-dark);
     text-align: center;
@@ -16,11 +28,17 @@
     font-size: 2.5rem;
 }
 
+/* Description Container
+   Centered text container for app description
+*/
 .app-description {
     text-align: center;
     margin-bottom: 3rem;
 }
 
+/* Description Text
+   Styling for the main description paragraph
+*/
 .app-description p {
     color: var(--text-color);
     font-size: 1.2rem;
@@ -29,7 +47,9 @@
     margin: 0 auto 2rem;
 }
 
-/* Features Grid */
+/* Features Grid
+   Responsive grid layout for feature cards
+*/
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -37,6 +57,9 @@
     margin-top: 3rem;
 }
 
+/* Feature Card
+   Individual feature card with hover effects
+*/
 .feature-card {
     background: var(--content-bg);
     padding: 2rem;
@@ -46,34 +69,51 @@
     border: 1px solid var(--border-color);
 }
 
+/* Card Hover Effect
+   Elevation and shadow on hover
+*/
 .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
 }
 
+/* Feature Icon
+   Styling for feature icons
+*/
 .feature-card i {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
+/* Feature Title
+   Styling for feature card titles
+*/
 .feature-card h3 {
     color: var(--primary-dark);
     margin-bottom: 1rem;
     font-size: 1.3rem;
 }
 
+/* Feature Description
+   Styling for feature descriptions
+*/
 .feature-card p {
     color: var(--text-color);
     font-size: 1rem;
     line-height: 1.6;
 }
 
-/* Team Section */
+/* Team Section
+   Container for team member cards
+*/
 .team-section {
     margin-top: 4rem;
 }
 
+/* Team Section Title
+   Styling for the team section heading
+*/
 .team-section h2 {
     color: var(--primary-dark);
     text-align: center;
@@ -81,12 +121,18 @@
     font-size: 2rem;
 }
 
+/* Team Grid
+   Responsive grid layout for team cards
+*/
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
+/* Team Card
+   Individual team member card with hover effects
+*/
 .team-card {
     background: var(--content-bg);
     border-radius: 12px;
@@ -95,17 +141,26 @@
     border: 1px solid var(--border-color);
 }
 
+/* Team Card Hover
+   Elevation and shadow on hover
+*/
 .team-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
 }
 
+/* Team Image Container
+   Fixed height container for team member images
+*/
 .team-image {
     width: 100%;
     height: 250px;
     overflow: hidden;
 }
 
+/* Team Member Image
+   Styling for team member photos
+*/
 .team-image img {
     width: 100%;
     height: 100%;
@@ -113,27 +168,42 @@
     transition: var(--transition);
 }
 
+/* Image Hover Effect
+   Subtle zoom effect on hover
+*/
 .team-card:hover .team-image img {
     transform: scale(1.05);
 }
 
+/* Team Info Container
+   Container for team member information
+*/
 .team-info {
     padding: 1.5rem;
     text-align: center;
 }
 
+/* Team Member Name
+   Styling for team member names
+*/
 .team-info h3 {
     color: var(--primary-dark);
     margin-bottom: 0.5rem;
     font-size: 1.4rem;
 }
 
+/* Team Member Role
+   Styling for team member roles
+*/
 .team-info .role {
     color: var(--primary-color);
     font-weight: 500;
     margin-bottom: 1rem;
 }
 
+/* Team Member Bio
+   Styling for team member biographies
+*/
 .team-info .bio {
     color: var(--text-color);
     font-size: 1rem;
@@ -141,37 +211,52 @@
     margin-bottom: 1.5rem;
 }
 
+/* Social Links Container
+   Container for social media links
+*/
 .social-links {
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
+/* Social Link Icons
+   Styling for social media icons
+*/
 .social-links a {
     color: var(--primary-color);
     font-size: 1.5rem;
     transition: var(--transition);
 }
 
+/* Social Link Hover
+   Color change and elevation on hover
+*/
 .social-links a:hover {
     color: var(--primary-dark);
     transform: translateY(-3px);
 }
 
-/* Responsive Design */
+/* Responsive Design
+   Mobile-specific styles
+*/
 @media (max-width: 768px) {
+    /* Adjusted padding for mobile */
     .about-container {
         padding: 1rem;
     }
 
+    /* Smaller title on mobile */
     .app-info h1 {
         font-size: 2rem;
     }
 
+    /* Single column layout for team cards */
     .team-grid {
         grid-template-columns: 1fr;
     }
 
+    /* Smaller image height on mobile */
     .team-image {
         height: 200px;
     }

@@ -1,37 +1,49 @@
-<nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-transparent container-fluid justify-content-between"
-  style="margin-bottom: 1em; border-bottom: 1px solid rgba(255, 255, 255, 0.2); position: fixed; top: 0; width: 100%; transition: top 0.3s; z-index: 1000;">
+<!-- Navigation Bar Component -->
+<!-- Fixed position navbar with transparent background and smooth transition effect -->
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark container-fluid justify-content-between"
+  style="transition: all 0.3s ease;">
   
+  <!-- Brand Logo and Name -->
   <a class="navbar-brand" href="/">
     <img src="{{ url_for('static', filename='images/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
     PlantIt
   </a>
   
+  <!-- Mobile Navigation Toggle Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   
+  <!-- Navigation Links Container -->
   <div class="collapse navbar-collapse justify-content-end" id="navbarText">
     <ul class="navbar-nav">
+      <!-- Home Link -->
       <li class="nav-item active">
         <a class="nav-link" href="{{ url_for('upload') }}">Home</a>
       </li>
+      <!-- Price Prediction Link (External) -->
       <li class="nav-item">
         <a class="nav-link" href="https://visualize.data.gov.in/?inst=9ef84268-d588-465a-a308-a864a43d0070&embed=1"
           target="_blank">Price Prediction</a>
       </li>
+      <!-- Agriculture News Link -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('news') }}">Agriculture news</a>
       </li>
+      <!-- Government Schemes Link -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('schemes') }}">Government schemes</a>
       </li>
+      <!-- Crop Prediction Link -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('crop_prediction') }}">Crop Prediction</a>
       </li>
+      <!-- About Us Link -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('about_us') }}">About Us</a> <!-- Added About Us -->
+        <a class="nav-link" href="{{ url_for('about_us') }}">About Us</a>
       </li>
+      <!-- PWA Install Button -->
       <li class="nav-item">
         <a class="nav-link" id="installButton" href="#">Install as app</a>
       </li>

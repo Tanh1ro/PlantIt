@@ -1,3 +1,10 @@
+/* Footer Stylesheet
+   Contains styles for the footer section and its components
+*/
+
+/* Main Footer Container
+   Dark background with padding and margin
+*/
 .footer {
     background-color: #1a1a1a;
     color: #ffffff;
@@ -5,6 +12,9 @@
     margin-top: 4rem;
 }
 
+/* Footer Content Grid
+   Responsive grid layout for footer sections
+*/
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -13,21 +23,33 @@
     margin: 0 auto;
 }
 
+/* Footer Section
+   Individual sections within the footer
+*/
 .footer-section {
     padding: 1rem;
 }
 
+/* Footer Logo
+   Styling for the application logo in footer
+*/
 .footer-logo {
     max-width: 200px;
     margin-bottom: 1rem;
 }
 
+/* Footer Description
+   Styling for the footer description text
+*/
 .footer-description {
     color: #a0a0a0;
     line-height: 1.6;
     margin-bottom: 1rem;
 }
 
+/* Section Headings
+   Styling for section titles with underline effect
+*/
 .footer-section h3 {
     color: #ffffff;
     margin-bottom: 1.5rem;
@@ -36,6 +58,9 @@
     padding-bottom: 0.5rem;
 }
 
+/* Heading Underline
+   Decorative underline for section titles
+*/
 .footer-section h3::after {
     content: '';
     position: absolute;
@@ -46,25 +71,40 @@
     background-color: #4CAF50;
 }
 
+/* Footer Links List
+   Styling for the list of links in each section
+*/
 .footer-section ul {
     list-style: none;
     padding: 0;
 }
 
+/* List Items
+   Spacing and margin for list items
+*/
 .footer-section ul li {
     margin-bottom: 0.8rem;
 }
 
+/* Footer Links
+   Styling for links with hover effects
+*/
 .footer-section ul li a {
     color: #a0a0a0;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
+/* Link Hover State
+   Color change on hover
+*/
 .footer-section ul li a:hover {
     color: #4CAF50;
 }
 
+/* Footer Bottom Section
+   Copyright and additional information
+*/
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
@@ -72,37 +112,51 @@
     border-top: 1px solid #333;
 }
 
+/* Bottom Text
+   Styling for copyright text
+*/
 .footer-bottom p {
     color: #a0a0a0;
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
+/* Responsive Design
+   Mobile-specific styles
+*/
 @media (max-width: 768px) {
+    /* Adjusted padding for mobile */
     .footer {
         padding: 2rem 1rem;
     }
 
+    /* Single column layout on mobile */
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
     }
 
+    /* Centered underline for mobile */
     .footer-section h3::after {
         left: 50%;
         transform: translateX(-50%);
     }
 
+    /* Centered logo for mobile */
     .footer-logo {
         margin: 0 auto 1rem;
     }
 }
 
-/* Animation */
+/* Link Animation
+   Underline animation for footer links
+*/
 .footer-section ul li a {
     position: relative;
 }
 
+/* Link Underline Effect
+   Animated underline on hover
+*/
 .footer-section ul li a::after {
     content: '';
     position: absolute;
@@ -114,6 +168,9 @@
     transition: width 0.3s ease;
 }
 
+/* Link Hover Animation
+   Show underline on hover
+*/
 .footer-section ul li a:hover::after {
     width: 100%;
 }
