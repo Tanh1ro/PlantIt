@@ -39,11 +39,11 @@
     background: var(--content-bg);
     border-radius: 12px;
     overflow: hidden;
-    transition: var(--transition);
     border: 1px solid var(--border-color);
     height: 100%;
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .news-card:hover {
@@ -68,7 +68,7 @@
 .news-title a {
     color: inherit;
     text-decoration: none;
-    transition: var(--transition);
+    transition: color 0.3s ease;
 }
 
 .news-title a:hover {
@@ -90,7 +90,7 @@
     text-decoration: none;
     font-weight: 500;
     margin-top: auto;
-    transition: var(--transition);
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .news-link:hover {
@@ -100,7 +100,7 @@
 
 .news-link i {
     margin-left: 0.5rem;
-    transition: var(--transition);
+    transition: transform 0.3s ease;
 }
 
 .news-link:hover i {

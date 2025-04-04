@@ -1,72 +1,76 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<div class="container">
-    <h1 style="text-align:center">Crop Prediction Results</h1>
-    <h2 style="text-align:center">&#8595;</h2><br></br>
+<div class="crop-prediction-container">
+    <h2>Crop Prediction</h2>
+    <p class="description">Enter your soil and environmental parameters to get crop recommendations.</p>
 
-    <div class="row">
-        <div class="col">
-            <div class="alert alert-success text-center" style="margin-bottom: 2em;">
-                <h4>🌾 Predicted Crop: {{ predicted_crop }}</h4>
+    <form method="POST" action="{{ url_for('crop_prediction') }}" class="prediction-form">
+        <div class="form-group">
+            <label for="nitrogen">Nitrogen Content</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.01" id="nitrogen" name="nitrogen" required>
+                <span class="unit">mg/kg</span>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <div style="margin-bottom: 2em; text-align:center">
-                <h5>AI Recommendations</h5>
+        <div class="form-group">
+            <label for="phosphorus">Phosphorus Content</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.01" id="phosphorus" name="phosphorus" required>
+                <span class="unit">mg/kg</span>
             </div>
-            <table style="width: 100%; margin: auto; text-align:center;" class="table table-bordered table-responsive">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="text-align: center; color: white;" scope="col">Recommendation Type</th>
-                        <th style="text-align: center; color: white;" scope="col">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="color: white; width: 30%;">Primary Recommendation</td>
-                        <td style="color: white; text-align: left;">
-                            <ul style="list-style-type: none; padding-left: 0;">
-                                {% if recommendation %}
-                                    {% for point in recommendation.split('\n') %}
-                                        {% if point.strip() and not "alternative" in point.lower() and not "enhance" in point.lower() and not "suggest" in point.lower() and not "millets" in point.lower() and not "sorghum" in point.lower() and not "cowpea" in point.lower() and not "groundnut" in point.lower() and not "sustainable" in point.lower() and not "practices" in point.lower() %}
-                                            <li style="margin-bottom: 10px;">• {{ point.strip() }}</li>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <li>No recommendation available</li>
-                                {% endif %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: white; width: 30%;">Alternative Crops & Sustainable Practices</td>
-                        <td style="color: white; text-align: left;">
-                            <ul style="list-style-type: none; padding-left: 0;">
-                                {% if recommendation %}
-                                    {% for point in recommendation.split('\n') %}
-                                        {% if point.strip() and ("alternative" in point.lower() or "enhance" in point.lower() or "suggest" in point.lower() or "millets" in point.lower() or "sorghum" in point.lower() or "cowpea" in point.lower() or "groundnut" in point.lower() or "sustainable" in point.lower() or "practices" in point.lower()) %}
-                                            <li style="margin-bottom: 10px;">• {{ point.strip() }}</li>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <li>No alternative crops or sustainable practices available</li>
-                                {% endif %}
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-    </div>
 
-    <div class="row" style="margin-top: 2em;">
-        <div class="col text-center">
-            <a href="{{ url_for('crop_prediction') }}" class="btn btn-primary">Try Another Prediction</a>
+        <div class="form-group">
+            <label for="potassium">Potassium Content</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.01" id="potassium" name="potassium" required>
+                <span class="unit">mg/kg</span>
+            </div>
         </div>
+
+        <div class="form-group">
+            <label for="temperature">Temperature</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.1" id="temperature" name="temperature" required>
+                <span class="unit">°C</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="humidity">Humidity</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.1" id="humidity" name="humidity" required>
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="soilPH">Soil pH</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.1" id="soilPH" name="soilPH" required>
+                <span class="unit">pH</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="rainfall">Annual Rainfall</label>
+            <div class="input-wrapper">
+                <input type="number" step="0.1" id="rainfall" name="rainfall" required>
+                <span class="unit">mm/year</span>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Get Crop Recommendations</button>
+    </form>
+
+    {% if prediction %}
+    <div class="prediction-result">
+        <h3>Recommended Crop:</h3>
+        <p>{{ prediction }}</p>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
+

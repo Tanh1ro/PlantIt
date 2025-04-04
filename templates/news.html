@@ -1,34 +1,95 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="news-container">
-    <div class="news-header">
-        <h2>Latest Agricultural News</h2>
-    </div>
-
-    {% if articles %}
-        <div class="news-grid">
+<div class="container">
+    <h2 class="text-center mb-4">Latest Agricultural News</h2>
+    <div class="news-grid">
+        {% if articles %}
             {% for article in articles %}
                 <div class="news-card">
                     <div class="news-content">
                         <h3 class="news-title">
                             <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
                         </h3>
-                        <p class="news-summary">{{ article.summary }}</p>
-                        <a href="{{ article.url }}" target="_blank" class="news-link">
+                        <p class="news-summary">
+                            {% if article.description %}
+                                {{ article.description }}
+                            {% elif article.summary %}
+                                {{ article.summary }}
+                            {% else %}
+                                No summary available
+                            {% endif %}
+                        </p>
+                        <a href="{{ article.url }}" class="news-link" target="_blank">
                             Read More <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             {% endfor %}
-        </div>
-    {% else %}
-        <div class="no-news">
-            <p>No news available at the moment. Please check back later.</p>
-        </div>
-    {% endif %}
+        {% else %}
+            <div class="no-news">
+                <p>No news available at the moment. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
-
-<!-- Add Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
+
+{% block styles %}
+<style>
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .news-card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .news-title {
+        margin-bottom: 10px;
+    }
+
+    .news-title a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .news-summary {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .news-link {
+        color: #007bff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .news-link i {
+        margin-left: 5px;
+    }
+
+    .no-news {
+        text-align: center;
+        padding: 20px;
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+<!-- Add required scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script src="{{ url_for('static', filename='js/news.js') }}"></script>
