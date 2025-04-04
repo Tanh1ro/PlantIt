@@ -1,0 +1,227 @@
+/* Color Theme Variables */
+:root {
+    /* Primary Colors */
+    --primary-green: #27ae60;
+    --primary-green-dark: #219a52;
+    --primary-green-light: #e8f5e9;
+    
+    /* Secondary Colors */
+    --secondary-blue: #2c3e50;
+    --secondary-blue-light: #34495e;
+    
+    /* Neutral Colors */
+    --neutral-white: #ffffff;
+    --neutral-gray-light: #f8f9fa;
+    --neutral-gray: #e9ecef;
+    --neutral-gray-dark: #343a40;
+    
+    /* Accent Colors */
+    --accent-yellow: #f1c40f;
+    --accent-orange: #e67e22;
+    --accent-red: #e74c3c;
+    
+    /* Shadow Colors */
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+}
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--secondary-blue-light);
+    background-color: var(--neutral-gray-light);
+}
+
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.card {
+    background-color: var(--neutral-white);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow-light);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--secondary-blue);
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--neutral-gray);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 2px var(--primary-green-light);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: var(--neutral-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-green-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-blue);
+    color: var(--neutral-white);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-blue-light);
+}
+
+/* Checkbox Styles */
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.custom-checkbox input {
+    opacity: 0;
+    position: absolute;
+}
+
+.custom-checkbox label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+.custom-checkbox label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--neutral-gray);
+    border-radius: 4px;
+    background-color: var(--neutral-white);
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox input:checked + label:before {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+/* Alert Messages */
+.alert {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: var(--primary-green-light);
+    color: var(--primary-green-dark);
+    border-left: 4px solid var(--primary-green);
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 4px solid var(--accent-yellow);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid var(--accent-red);
+}
+
+/* Navigation */
+.navbar {
+    background-color: var(--neutral-white);
+    box-shadow: 0 2px 4px var(--shadow-light);
+    padding: 1rem 0;
+}
+
+.nav-link {
+    color: var(--secondary-blue);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-green);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+} 

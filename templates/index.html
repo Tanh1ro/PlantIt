@@ -2,26 +2,98 @@
 
 {% block body %}
 
-<div style="text-align:center">
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        min-height: 100vh;
+        padding-top: 80px; /* Add padding to account for fixed navbar */
+    }
 
-  <h1 style="text-align:center; color:rgb(255, 255, 255); margin-bottom: 1em;">
-      Farmer's assistant
-  </h1>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
 
-<h4 style="margin-bottom: 1em; color:aliceblue;" >
-  Farmer's assistant provides you soil information and suggest's crops that are best suited to grow in your field along with their optimum conditions using our AI and also brings you latest agricultual updates.
-<h4>
+    /* Background Image */
+    .background-section {
+        width: 60%;
+        height: 400px;
+        background: url('/static/images/agri.png') no-repeat center center;
+        background-size: contain;
+        animation: floatBackground 6s infinite ease-in-out alternate;
+        margin: 2rem 0;
+    }
 
-          <img src="/static/images/agri.jpg" style="width:60%;height:auto;">
-        <div id="suggest">
-          <br></br>
-          <h4 style="text-align:center; color:aliceblue;"> Upload soil image to get insights </h4>
-          <form action="{{ url_for('upload') }}">
-            <div style="text-align:center">
-              <button style="text-align:center" class="btn btn-dark" type="submit"> Upload </button>
-            </div>
-          </form>
-        </div>
+    @keyframes floatBackground {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(20px); }
+    }
+
+    /* Content Box */
+    .content {
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-weight: 300;
+    }
+
+    /* Upload Button */
+    .btn-dark {
+        background-color: transparent;
+        border: 2px solid #fff;
+        padding: 12px 30px;
+        font-size: 18px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .btn-dark:hover {
+        background-color: rgba(68, 0, 255, 0.7);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Main Layout -->
+<div class="container">
+    <h1>Farmer's Assistant</h1>
+    <div class="background-section"></div>
+
+    <div class="content">
+        <h4>Welcome to your intelligent farming companion! Our advanced AI system analyzes soil conditions and provides personalized crop recommendations to maximize your yield.</h4>
+        <h4>Get real-time weather updates, access government schemes, and stay informed with the latest agricultural innovations.</h4>
+        <h4>Make data-driven decisions for sustainable farming practices and improved productivity.</h4>
+        <br>
+        <h4>Upload a soil image to begin your smart farming journey</h4>
+        <form action="{{ url_for('upload') }}">
+            <button class="btn btn-dark" type="submit">Start Analysis</button>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

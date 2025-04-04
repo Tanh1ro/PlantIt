@@ -2,16 +2,72 @@
 
 {% block body %}
 
-    <div style="text-align:center">
-    <h1 style="margin-bottom: 3em;"> Upload the image </h1>
-    <div style="text-align:center;">
-    <form action = "{{url_for("success")}}" method = "post" enctype="multipart/form-data">
-        Choose image  <input type="file" name="file" required/>
-        <br></br><br></br>
-        Enter the city name  <input type="text" name="city"  style="margin-bottom: 3em; text-align:center;" required/>
-        <br>
-        <button style="text-align:center" class="btn btn-dark" type="submit" value="Upload"> Upload </button>
-    </form>
+<style>
+    .upload-container {
+        text-align: center;
+        color: white;
+        margin-top: 2rem;
+    }
+
+    .upload-form {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 2rem;
+        border-radius: 15px;
+        display: inline-block;
+    }
+
+    .form-group {
+        margin-bottom: 2rem;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-dark {
+        background-color: transparent;
+        border: 2px solid #fff;
+        padding: 12px 30px;
+        font-size: 18px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+    .btn-dark:hover {
+        background-color: rgba(68, 0, 255, 0.7);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="upload-container">
+    <h1 style="margin-bottom: 3em;">Upload the image</h1>
+    
+    <div class="upload-form">
+        <form action="{{url_for('success')}}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose image</label>
+                <input type="file" class="form-control" id="file" name="file" required/>
+            </div>
+            
+            <div class="form-group">
+                <label for="city">Enter the city name</label>
+                <input type="text" class="form-control" id="city" name="city" required/>
+            </div>
+
+            <button class="btn btn-dark" type="submit" value="Upload">Upload</button>
+        </form>
     </div>
+</div>
 
 {% endblock %}

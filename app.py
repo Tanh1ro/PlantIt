@@ -135,10 +135,15 @@ import google.generativeai as genai
 import tensorflow as tf
 import numpy as np
 from keras.preprocessing import image
+import requests
+from bs4 import BeautifulSoup
 from flask import Flask, request, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import feedparser
+from newspaper import Article
+
 
 # Database setup
 engine = create_engine("postgresql://postgres:Hanuman#30@localhost:5432/postgres")
@@ -150,6 +155,27 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 # Configure Gemini API
 genai.configure(api_key="AIzaSyAk8AJy0Emha5FHsFVXpcZpgQGX9ndkM-8")
 
+NEWS_API_KEY = "9486ec6418b046d08213528320b97651"
+NEWS_URL = "https://newsapi.org/v2/top-headlines"
+
+def fetch_news():
+    params = {
+    "q": "agriculture OR farming OR crops OR rural",
+    "country": "in",
+    "language": "en",
+    "apiKey": NEWS_API_KEY
+}
+    response = requests.get(NEWS_URL, params=params)
+    
+    print(response.json())
+    
+    if response.status_code != 200:
+        return []
+
+    data = response.json()
+    return data.get("articles", [])
+
+
 # Load trained ML models
 rf_model = joblib.load("rf_model.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
@@ -160,17 +186,80 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def get_scheme_recommendations(user_input):
+    prompt = f"""
+    Based on the following user inputs, recommend the most suitable Indian government schemes for farmers:
+    {user_input}
+    """
+    model = genai.GenerativeModel("gemini-1.5-pro")
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
+def fetch_google_news():
+    feed_url = "https://news.google.com/rss/search?q=indian+farmers&hl=en-IN&gl=IN&ceid=IN:en"
+    feed = feedparser.parse(feed_url)
+
+    articles = []
+    for entry in feed.entries[:5]:  # Fetch top 5 news articles
+        article_url = entry.link
+        try:
+            article = Article(article_url)
+            article.download()
+            article.parse()
+            article.nlp()
+            summary = article.summary
+        except Exception:
+            summary = "Summary not available"
+
+        articles.append({
+            "title": entry.title,
+            "url": article_url,
+            "summary": summary
+        })
+        time.sleep(1)  # Avoid getting blocked
+
+    return articles
+
+
+@app.route('/schemes', methods=['GET', 'POST'])
+def schemes():
+    recommendations = None
+    if request.method == 'POST':
+        user_input = {
+            "income_support": request.form.get("income_support", "no").lower(),
+            "insurance": request.form.get("insurance", "no").lower(),
+            "credit": request.form.get("credit", "no").lower(),
+            "irrigation": request.form.get("irrigation", "no").lower(),
+            "soil_health": request.form.get("soil_health", "no").lower(),
+            "livestock": request.form.get("livestock", "no").lower(),
+            "market_access": request.form.get("market_access", "no").lower(),
+            "organic_farming": request.form.get("organic_farming", "no").lower()
+        }
+        recommendations = get_scheme_recommendations(user_input)
+    return render_template('schemes.html', recommendations=recommendations)
 @app.route('/')
 def upload():
     return render_template('index.html')
 
-@app.route('/news', methods=['GET'])
+@app.route('/news')
 def news():
-    return render_template('news.html')
+    articles = fetch_news()  # Try NewsAPI first
+    if not articles:  
+        articles = fetch_google_news()  # Use Google RSS if NewsAPI fails
+    return render_template('news.html', articles=articles)
 
-@app.route('/schemes', methods=['GET'])
-def schemes():
-    return render_template('schemes.html')
+# @app.route('/news')
+# def news():
+#     articles = newsapi.get_everything(q="agriculture OR farming OR crops", language="en", sort_by="publishedAt", page_size=10)
+    
+#     if not articles['articles']:
+#         return render_template('news.html', articles=None)
+
+#     return render_template('news.html', articles=articles['articles'])
+
+# @app.route('/schemes', methods=['GET'])
+# def schemes():
+#     return render_template('schemes.html')
 
 @app.route('/crop-prediction', methods=['GET', 'POST'])
 def crop_prediction():
@@ -206,6 +295,10 @@ def crop_prediction():
         return render_template('crop_prediction.html', predicted_crop=predicted_crop, recommendation=gemini_recommendation)
     
     return render_template('crop_input.html')
+
+@app.route('/about-us')
+def about_us():
+    return render_template('about_us.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
