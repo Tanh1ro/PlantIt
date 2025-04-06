@@ -1,72 +1,130 @@
-# Crop Prediction Flask App
+# PlantIt - A Progressive Web Application (PWA) for Farmers
 
-A machine learning-powered crop recommendation system using Flask, TensorFlow, Google Gemini API, and web scraping for real-time agricultural insights.
+**PlantIt** is a Progressive Web Application (PWA) designed to assist farmers with various agricultural needs using machine learning and AI technologies.
 
 ## Features
 
-✅ *Soil Classification*: Uses an image of the soil to classify its type.  
-✅ *Weather Integration*: Fetches real-time weather data to assess climatic conditions.  
-✅ *Crop Recommendation*: Suggests the best crops based on soil type and weather conditions.  
-✅ *Google Gemini AI*: Enhances predictions with LLM-based insights.  
-✅ *News Scraping*: Retrieves the latest agricultural news for farmers.  
-✅ *Government Schemes*: Provides farmers with information about available schemes.
+### 1. Soil Classification & Crop Prediction
+- Upload soil images for classification.
+- Get crop recommendations based on soil type.
+- View detailed crop information and alternatives.
+- Real-time weather data integration.
 
-## Tech Stack
+### 2. Government Schemes
+- Personalized scheme recommendations.
+- Detailed information about various government schemes.
+- Eligibility criteria and application process.
+- Benefits and subsidies information.
 
-- *Frontend*: HTML, CSS, JavaScript  
-- *Backend*: Flask  
-- *Machine Learning*: TensorFlow, Keras, Google Gemini API  
-- *Database*: SQLAlchemy (for managing data)  
-- *Web Scraping*: BeautifulSoup, Newspaper3k, Feedparser  
+### 3. Agricultural News
+- Real-time news updates from multiple sources.
+- NewsAPI and Google News integration.
+- Categorized agricultural news.
+- News summaries and direct links.
 
-## Libraries Used
+### 4. Price Prediction
+- Market price predictions for crops.
+- Historical price data analysis.
+- Market trends and insights.
 
-| Library | Purpose |
-|---------|---------|
-| os, time | System operations and time management |
-| requests | Handling HTTP requests |
-| joblib | Model persistence and loading |
-| pandas | Data manipulation and analysis |
-| google.generativeai | Google Gemini AI integration |
-| tensorflow, keras | Machine learning and deep learning models |
-| numpy | Numerical computing |
-| bs4 (BeautifulSoup) | Web scraping |
-| flask | Web framework |
-| werkzeug.utils | Secure file handling |
-| sqlalchemy | Database ORM |
-| feedparser | Parsing RSS feeds |
-| newspaper3k | Extracting articles from news sources |
+### 5. Weather Information
+- Real-time weather updates.
+- Weather forecasts.
+- Climate data integration.
+
+---
+
+## Technology Stack
+
+- **Backend:** Flask (Python)
+- **Frontend:** HTML, CSS, JavaScript
+- **Machine Learning:** TensorFlow, scikit-learn
+- **AI Integration:** Google Gemini API
+- **Database:** PostgreSQL
+- **APIs:** NewsAPI, Weather API
+- **Other Tools:** BeautifulSoup, Newspaper3k
+
+---
 
 ## Setup Instructions
 
-### 1. Clone the Repository
-bash
-git clone https://github.com/your-username/crop-prediction-flask.git
-cd crop-prediction-flask
+### 1. Clone the repository:
+```sh
+git clone [repository-url]
+cd PlantIt
+```
 
+### 2. Create a virtual environment:
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-### 2. Install Dependencies
-bash
+### 3. Install dependencies:
+```sh
 pip install -r requirements.txt
+```
 
+### 4. Set up environment variables:
+- Create a `.env` file.
+- Add your API keys:
+```
+GEMINI_API_KEY=your_gemini_api_key
+NEWS_API_KEY=your_news_api_key
+```
 
-### 3. Add Google AI Studio API Key
-- Get your API key from Google AI Studio.
-- Store it in a .env file or update your code with the key.
+### 5. Initialize the database:
+```sh
+python init_db.py
+```
 
-### 4. Run the Flask App
-bash
+### 6. Run the application:
+```sh
 python app.py
+```
 
+### 7. Access the application:
+Visit [http://localhost:5000](http://localhost:5000) in your browser.
 
-### 5. Access the Application
-Open a browser and go to:  
-[http://127.0.0.1:5000](http://127.0.0.1:5000)
+---
 
-## Future Enhancements
+## Project Structure
 
-- Implement a mobile-friendly UI.  
-- Add multilingual support for farmers.  
-- Expand crop disease detection using deep learning.  
+```
+Farmers_assistant-PWA/
+├── app.py                 # Main application file
+├── requirements.txt       # Python dependencies
+├── static/               # Static files (CSS, JS, images)
+├── templates/            # HTML templates
+├── uploaded_images/      # User uploaded soil images
+├── models/              # Machine learning models
+└── README.md            # Project documentation
+```
+
+---
+
+## API Keys Required
+
+- Google Gemini API Key
+- NewsAPI Key
+- Weather API Key
+
+---
+
+## Contributing
+
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 
 
