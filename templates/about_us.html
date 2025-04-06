@@ -1,0 +1,686 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<!-- Main About Container -->
+<div class="about-container">
+    <!-- Application Information Section -->
+    <section class="app-info">
+        <h1>About PlantIt</h1>
+        <div class="app-description">
+            <!-- Application Description -->
+            <p class="lead-text">PlantIt is a comprehensive agricultural assistant platform designed to empower farmers with smart technology solutions. Our mission is to bridge the gap between traditional farming practices and modern technology.</p>
+            
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <!-- Crop Prediction Feature -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Crop Prediction</h3>
+                    <p>AI-powered crop recommendations based on soil and weather conditions</p>
+                </div>
+
+                <!-- Price Prediction Feature -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Price Prediction</h3>
+                    <p>Market analysis and price forecasting for better decision making</p>
+                </div>
+
+                <!-- Agricultural News Feature -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Agricultural News</h3>
+                    <p>Latest updates and trends in the agricultural sector</p>
+                </div>
+
+                <!-- Government Schemes Feature -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Government Schemes</h3>
+                    <p>Information about available government schemes and subsidies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <!-- Team Member 1 -->
+            <div class="team-card">
+                <div class="team-image" onclick="showTeamMember('parinitha')">
+                    <img src="{{ url_for('static', filename='images/Parinitha_RK.jpg') }}" alt="Parinitha RK">
+                    <div class="team-overlay">
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/parinitha-rk-110b17286" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/parinitha1" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <h3>Parinitha RK</h3>
+                    <p class="role">Gen AI Engineer</p>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-card">
+                <div class="team-image" onclick="showTeamMember('nandeesh')">
+                    <img src="{{ url_for('static', filename='images/Nandeesh_K.jpg') }}" alt="Nandeesh Kantli">
+                    <div class="team-overlay">
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/nandeesh-kantli" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/Tanh1ro" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <h3>Nandeesh Kantli</h3>
+                    <p class="role">Founder & Product Architect</p>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-card">
+                <div class="team-image" onclick="showTeamMember('prajna')">
+                    <img src="{{ url_for('static', filename='images/Prajna_MS.jpg') }}" alt="Prajna MS">
+                    <div class="team-overlay">
+                        <div class="social-links">
+                            <a href="http://www.linkedin.com/in/prajna-m-s-8154752a2" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <h3>Prajna MS</h3>
+                    <p class="role">AI/ML Engineer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Member Modals -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mentors Section -->
+    <section class="mentors-section">
+        <h2>Our Mentors</h2>
+        <div class="mentors-grid">
+            <!-- Mentor 1 -->
+            <div class="mentor-card">
+                <div class="mentor-image">
+                    <img src="{{ url_for('static', filename='images/Prof_Phani_Kumar.jpg') }}" alt="Dr. Phani Kumar Pullela">
+                    <div class="mentor-overlay">
+                        <div class="social-links">
+                            <a href="#" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mentor-info">
+                    <h3>Dr. Phani Kumar Pullela</h3>
+                    <p class="role">President Awardee, Ph.D. (Chemistry), Postdoc (Chemical Biology)</p>
+                    <div class="mentor-bio">
+                        <p>Dr Pullela did his Masters from University of Hyderabad, PhD from University of Mysore, and Postdoc from Marquette University, USA. He has over 25 publications, licensed over 15 technologies, six US patents, mentored over 17 startups and received over 30 crore research funding.</p>
+                        <p>Dr Pullela has created "Design Thinking by Panchatantra", a story based innovation system and has created over 37 successful entrepreneurs. He routinely conducts 2/3/5 day long workshops in technical article writing, patent drafting and product development.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mentor 2 -->
+            <div class="mentor-card">
+                <div class="mentor-image">
+                    <img src="{{ url_for('static', filename='images/Prof_Aparna.jpg') }}" alt="Prof. Aparna R">
+                    <div class="mentor-overlay">
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/aparna-ramalingaiah-8b2475248?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    
+                        </div>
+                    </div>
+                </div>
+                <div class="mentor-info">
+                    <h3>Prof. Aparna R</h3>
+                    <p class="role">Assistant Professor @ SoCSE, RV University</p>
+                    <div class="mentor-bio">
+                        <p>Aparna R, Assistant Professor at RV University, has 20+ years of experience in academia and the software industry. She worked at Yahoo as a Senior Software Engineer and served as an AWS consultant, earning multiple AWS certifications.</p>
+                        <p>Currently researching cloud security at VTU, she focuses on secure deduplication for cloud storage. She has led consultancy projects, mentored students, and collaborated on Ayurveda recipe digitization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Application Info Section */
+.app-info {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.lead-text {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+/* Team Section */
+.team-section {
+    margin: 4rem 0;
+    text-align: center;
+}
+
+.team-section h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.team-section h2:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: #4CAF50;
+    bottom: -10px;
+    left: 25%;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding: 0 1rem;
+}
+
+.team-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.team-image {
+    position: relative;
+    height: 350px;
+    overflow: hidden;
+}
+
+.team-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-image img {
+    transform: scale(1.1);
+}
+
+.team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-overlay {
+    opacity: 1;
+}
+
+.team-info {
+    padding: 2rem;
+    text-align: center;
+    background: #fff;
+}
+
+.team-info h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.role {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.bio {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Mentors Section */
+.mentors-section {
+    margin: 6rem 0;
+    text-align: center;
+}
+
+.mentors-section h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.mentors-section h2:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: #4CAF50;
+    bottom: -10px;
+    left: 25%;
+}
+
+.mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+    padding: 0 1rem;
+}
+
+.mentor-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 400px;
+}
+
+.mentor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mentor-image {
+    position: relative;
+    width: 300px;
+    min-width: 300px;
+    height: 300px; /* Square aspect ratio */
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.mentor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.mentor-card:hover .mentor-image img {
+    transform: scale(1.1);
+}
+
+.mentor-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mentor-card:hover .mentor-overlay {
+    opacity: 1;
+}
+
+.mentor-info {
+    padding: 2.5rem;
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mentor-info h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.mentor-info .role {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.mentor-bio {
+    margin-top: 1.5rem;
+    color: #666;
+    line-height: 1.8;
+}
+
+.mentor-bio p {
+    margin-bottom: 1rem;
+}
+
+/* Social Links */
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: #fff;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mentor-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .mentor-image {
+        width: 100%;
+        min-width: 100%;
+        height: 300px; /* Maintain square aspect ratio */
+    }
+    
+    .mentors-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mentor-info {
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .team-section h2,
+    .mentors-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-image {
+        height: 300px;
+    }
+    
+    .mentor-image {
+        height: 250px; /* Maintain square aspect ratio */
+    }
+    
+    .mentor-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .mentor-info .role {
+        font-size: 1.1rem;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-member-info {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.modal-member-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.modal-member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-member-details {
+    flex: 1;
+}
+
+.modal-member-details h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.modal-member-details .role {
+    color: #4CAF50;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.modal-member-details .bio {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.modal-social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.modal-social-links a {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.modal-social-links a:hover {
+    color: #4CAF50;
+}
+</style>
+
+<script>
+// Team member data
+const teamMembers = {
+    'parinitha': {
+        name: 'Parinitha RK',
+        role: 'Gen AI Engineer',
+        image: '{{ url_for("static", filename="images/Parinitha_RK.jpg") }}',
+        bio: 'Parinitha R.K. is a dynamic Gen AI Engineer with a passion for merging technology with sustainability. Currently pursuing her studies at RV University, she specializes in developing innovative AI solutions for agricultural challenges. Her expertise spans across machine learning, natural language processing, and generative AI applications. Beyond her technical prowess, Parinitha brings a unique perspective to problem-solving, having dedicated 15 years to mastering Bharatanatyam, which has instilled in her a deep appreciation for precision, discipline, and creative expression. This unique blend of technical and artistic excellence enables her to approach AI development with both analytical rigor and creative innovation.',
+        social: {
+            linkedin: 'https://www.linkedin.com/in/parinitha-rk-110b17286',
+            github: 'https://github.com/parinitha1'
+        }
+    },
+    'nandeesh': {
+        name: 'Nandeesh Kantli',
+        role: 'Founder & Product Architect',
+        image: '{{ url_for("static", filename="images/Nandeesh_K.jpg") }}',
+        bio: 'Nandeesh Kantli is a visionary technologist and entrepreneur currently pursuing dual degrees in Data Science at IIT Madras and Computer Science at RV University. As the Founder & Product Architect of PlantIt, he brings a unique blend of technical expertise and entrepreneurial acumen. His extensive experience spans across AI/ML, full-stack development, and cloud architecture, with notable contributions in image recognition, plant disease detection, and IoT solutions. Nandeesh has demonstrated exceptional leadership through various initiatives including founding the Coding Club at RV University and organizing major tech events like FOSS Hack and BAR camp. His technical prowess is complemented by certifications in GenAI, Azure Data Fundamentals, and multiple AI/ML specializations from INFOSYS. Beyond technology, Nandeesh is a multi-talented individual with achievements in sports, music, and community service, bringing a well-rounded perspective to product development and team leadership.',
+        social: {
+            linkedin: 'https://www.linkedin.com/in/nandeesh-kantli',
+            github: 'https://github.com/Tanh1ro'
+        }
+    },
+    'prajna': {
+        name: 'Prajna MS',
+        role: 'AI/ML Engineer',
+        image: '{{ url_for("static", filename="images/Prajna_MS.jpg") }}',
+        bio: 'Prajna M.S. is a versatile AI/ML Engineer currently pursuing Computer Science Engineering at RV University while interning at Visist AI. She has demonstrated exceptional technical acumen through diverse projects including ApexZone (fitness web app), Menu Mingos (food token management), PetPal (Arduino-based pet feeder), Aquanalysis (water potability analyzer), and a CodeBERT-based time complexity analyzer. Her technical stack includes Python, Java, ReactJS, and MongoDB, complemented by her expertise in machine learning and artificial intelligence. Beyond her technical achievements, Prajna is a classical dancer and enjoys singing, reflecting her well-rounded personality. Her passion for reading fiction and self-help books contributes to her innovative problem-solving approach in AI development.',
+        social: {
+            linkedin: 'http://www.linkedin.com/in/prajna-m-s-8154752a2',
+            github: 'https://github.com/PrajnaMS10'
+        }
+    }
+};
+
+// Get the modal
+const modal = document.getElementById('teamModal');
+const modalContent = document.getElementById('modalContent');
+
+// Function to show team member details
+function showTeamMember(memberId) {
+    const member = teamMembers[memberId];
+    modalContent.innerHTML = `
+        <div class="modal-member-info">
+            <div class="modal-member-image">
+                <img src="${member.image}" alt="${member.name}">
+            </div>
+            <div class="modal-member-details">
+                <h2>${member.name}</h2>
+                <p class="role">${member.role}</p>
+                <p class="bio">${member.bio}</p>
+                <div class="modal-social-links">
+                    <a href="${member.social.linkedin}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="${member.social.github}" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    `;
+    modal.style.display = "block";
+}
+
+// Close modal when clicking the close button
+document.querySelector('.close').onclick = function() {
+    modal.style.display = "none";
+}
+
+// Close modal when clicking outside the modal content
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

@@ -1,14 +1,518 @@
-.weather{
-	margin-bottom: 3em
+/* Main Stylesheet for Farmers Assistant PWA
+   This file contains global styles, variables, and reusable components
+   for the entire application.
+*/
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Global Styles and Variables
+   Defines color scheme, spacing, and other reusable values
+*/
+:root {
+    --primary-color: #2E7D32;  /* Darker green - Main brand color */
+    --primary-dark: #1B5E20;   /* Even darker green - Hover states */
+    --primary-light: #4CAF50;  /* Lighter green - Secondary elements */
+    --secondary-color: #8BC34A; /* Light green - Accent color */
+    --background-color: #f8f9fa; /* Light gray background */
+    --content-bg: #ffffff; /* White for content */
+    --text-color: #2C3E50;     /* Darker text for better contrast */
+    --text-light: #34495E;     /* Medium text - Secondary text */
+    --border-color: #e0e0e0;   /* Light gray for borders */
+    --success-color: #2E7D32;  /* Success messages */
+    --warning-color: #FFA000;  /* Amber for warnings */
+    --error-color: #C62828;    /* Dark red for errors */
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
 }
 
-.img{
-	display: block;
-	margin-left: auto;
-  margin-right: auto;
+/* Base Styles
+   Reset and default styles for all elements
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.centered {
-	margin-left: auto;
-	margin-right: auto;
+/* HTML Root Element
+   Sets base font size and smooth scrolling
+*/
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
+
+/* Body Styles
+   Main content area with flex layout
+*/
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Space for fixed navbar */
+}
+
+/* Container
+   Main content wrapper with max-width and padding
+*/
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 20px;
+    flex: 1;
+    background-color: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Typography
+   Heading and text styles with consistent hierarchy
+*/
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h1 { 
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+h2 { 
+    font-size: 2rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+h3 { 
+    font-size: 1.75rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Buttons
+   Reusable button styles with hover effects
+*/
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+/* Cards
+   Reusable card component with hover effects
+*/
+.card {
+    background: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    color: var(--text-color);
+}
+
+/* Forms
+   Form elements styling with focus states
+*/
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: white;
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+/* Grid System
+   Responsive grid layout
+*/
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Sections
+   Content sections with consistent styling
+*/
+.section {
+    padding: 4rem 0;
+    background-color: var(--content-bg);
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: var(--box-shadow);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    color: var(--primary-dark);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 1rem auto;
+}
+
+/* Weather Widget
+   Styling for the weather widget container
+*/
+.weather-container {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    background: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    backdrop-filter: blur(10px);
+}
+
+/* Alerts and Messages
+   Different types of alert messages
+*/
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: #E8F5E9;
+    color: var(--success-color);
+    border: 1px solid #C8E6C9;
+}
+
+.alert-warning {
+    background-color: #FFF8E1;
+    color: var(--warning-color);
+    border: 1px solid #FFECB3;
+}
+
+.alert-error {
+    background-color: #FFEBEE;
+    color: var(--error-color);
+    border: 1px solid #FFCDD2;
+}
+
+/* Utility Classes
+   Helper classes for common styling needs
+*/
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-3 { margin-top: 3rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mb-3 { margin-bottom: 3rem; }
+
+.p-1 { padding: 1rem; }
+.p-2 { padding: 2rem; }
+.p-3 { padding: 3rem; }
+
+/* Animations
+   Reusable animation keyframes
+*/
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Responsive Design
+   Media queries for different screen sizes
+*/
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .container {
+        padding: 1rem 15px;
+    }
+    
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    
+    .section {
+        padding: 2rem 0;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .navbar {
+        padding: 0.8rem 1rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+}
+
+/* Image Styles
+   Responsive and circular image classes
+*/
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.img-circle {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+/* Table Styles
+   Styled tables with hover effects
+*/
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+    background-color: var(--primary-light);
+    color: white;
+    text-align: left;
+}
+
+.table tr:hover {
+    background-color: var(--border-color);
+}
+
+/* Scrollbar Styling
+   Custom scrollbar appearance
+*/
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* Navigation Bar
+   Styling for the main navigation
+*/
+.navbar {
+    background-color: #2E7D32;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: white;
+    font-weight: 600;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-item.active .nav-link {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(46, 125, 50, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Footer
+   Styling for the footer section
+*/
+footer {
+    background-color: var(--primary-dark);
+    color: white;
+    padding: 3rem 0;
+    margin-top: auto;
+}
+
+footer h5 {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+footer a:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+section.top {
+    padding: 1rem 0;
+}
+
+section.top ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+/* Responsive Footer
+   Adjust footer layout for larger screens
+*/
+@media (min-width: 600px) {
+    section.top ul {
+        justify-content: flex-end;
+    }
+}
+
+/* Weather Widget Container
+   Styling for the weather widget iframe
+*/
+.weatherwidget-io {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+

@@ -2,26 +2,120 @@
 
 {% block body %}
 
-<div style="text-align:center">
+<!-- 
+  Home Page Template
+  This is the main landing page of the application.
+  Features:
+  - Responsive design with animated background
+  - Clear call-to-action buttons
+  - Informative content sections
+  - Modern styling with CSS animations
+-->
 
-  <h1 style="text-align:center; color:rgb(255, 255, 255); margin-bottom: 1em;">
-      Farmer's assistant
-  </h1>
+<!-- Custom CSS Styles for the Home Page -->
+<style>
+    /* Base styles for the page */
+    /* Sets up the basic layout and typography */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        min-height: 100vh;
+        padding-top: 80px; /* Add padding to account for fixed navbar */
+    }
 
-<h4 style="margin-bottom: 1em; color:aliceblue;" >
-  Farmer's assistant provides you soil information and suggest's crops that are best suited to grow in your field along with their optimum conditions using our AI and also brings you latest agricultual updates.
-<h4>
+    /* Main container styles */
+    /* Centers content and sets maximum width */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
 
-          <img src="/static/images/agri.jpg" style="width:60%;height:auto;">
-        <div id="suggest">
-          <br></br>
-          <h4 style="text-align:center; color:aliceblue;"> Upload soil image to get insights </h4>
-          <form action="{{ url_for('upload') }}">
-            <div style="text-align:center">
-              <button style="text-align:center" class="btn btn-dark" type="submit"> Upload </button>
-            </div>
-          </form>
+    /* Background Image Section with Animation */
+    /* Displays the main agricultural image with floating animation */
+    .background-section {
+        width: 60%;
+        height: 400px;
+        background: url('/static/images/agri.png') no-repeat center center;
+        background-size: contain;
+        animation: floatBackground 6s infinite ease-in-out alternate;
+        margin: 2rem 0;
+    }
+
+    /* Floating animation for background image */
+    /* Creates a subtle floating effect for visual appeal */
+    @keyframes floatBackground {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(20px); }
+    }
+
+    /* Content Box Styles */
+    /* Styling for the main content container */
+    .content {
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    /* Heading Styles */
+    /* Styling for main headings with text shadow */
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    /* Subheading styles */
+    h4 {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-weight: 300;
+    }
+
+    /* Action Buttons Container */
+    /* Flex container for call-to-action buttons */
+    .action-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+</style>
+
+<!-- Main Page Layout -->
+<div class="container">
+    <!-- Page Title -->
+    <!-- Main heading of the application -->
+    <h1>Farmer's Assistant</h1>
+    
+    <!-- Animated Background Image -->
+    <!-- Decorative image with floating animation -->
+    <div class="background-section"></div>
+
+    <!-- Main Content Section -->
+    <!-- Contains welcome message and feature highlights -->
+    <div class="content">
+        <!-- Welcome Message and Description -->
+        <!-- Three paragraphs describing the application's features -->
+        <h4>Welcome to your intelligent farming companion! Our advanced AI system analyzes soil conditions and provides personalized crop recommendations to maximize your yield.</h4>
+        <h4>Get real-time weather updates, access government schemes, and stay informed with the latest agricultural innovations.</h4>
+        <h4>Make data-driven decisions for sustainable farming practices and improved productivity.</h4>
+        
+        <!-- Action Buttons -->
+        <!-- Primary call-to-action button for soil analysis -->
+        <div class="action-buttons">
+            <a href="{{ url_for('red') }}" class="btn btn-primary">Start Soil Analysis</a>
         </div>
+    </div>
 </div>
 
 {% endblock %}

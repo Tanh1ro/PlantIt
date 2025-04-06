@@ -2,16 +2,216 @@
 
 {% block body %}
 
-    <div style="text-align:center">
-    <h1 style="margin-bottom: 3em;"> Upload the image </h1>
-    <div style="text-align:center;">
-    <form action = "{{url_for("success")}}" method = "post" enctype="multipart/form-data">
-        Choose image  <input type="file" name="file" required/>
-        <br></br><br></br>
-        Enter the city name  <input type="text" name="city"  style="margin-bottom: 3em; text-align:center;" required/>
-        <br>
-        <button style="text-align:center" class="btn btn-dark" type="submit" value="Upload"> Upload </button>
-    </form>
+<!-- 
+  File Upload Page Template
+  This page allows users to upload soil images for analysis.
+  Features:
+  - Custom file input styling
+  - File type validation
+  - Real-time filename display
+  - Responsive design
+  - User-friendly interface
+-->
+
+<!-- Custom Styles -->
+<style>
+    /* Base Styles */
+    /* Sets up the basic layout and typography */
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        min-height: 100vh;
+        padding-top: 80px;
+    }
+
+    /* Main Container */
+    /* Centers content and sets maximum width */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
+
+    /* Upload Container */
+    /* Styles the main upload section */
+    .upload-container {
+        text-align: center;
+        margin-top: 2rem;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    /* Upload Form */
+    /* Styles the form container */
+    .upload-form {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        width: 100%;
+    }
+
+    /* Form Group */
+    /* Styles form input groups */
+    .form-group {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Form Control */
+    /* Styles input fields */
+    .form-control {
+        background: #f8f9fa;
+        border: 1px solid #ced4da;
+        color: #495057;
+        padding: 0.75rem 1rem;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 400px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        font-size: 1rem;
+        font-family: inherit;
+        text-align: center;
+    }
+
+    /* Form Control Focus State */
+    /* Styles input fields when focused */
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    /* Form Control Placeholder */
+    /* Styles input field placeholders */
+    .form-control::placeholder {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+    /* Page Title */
+    /* Styles the main heading */
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: #343a40;
+        font-weight: 600;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        letter-spacing: 0.5px;
+    }
+
+    /* Form Labels */
+    /* Styles form labels */
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #495057;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: inherit;
+        letter-spacing: 0.3px;
+    }
+
+    /* File Input Wrapper */
+    /* Custom styling for file input */
+    .file-input-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* File Input */
+    /* Hides the default file input */
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Custom File Input Button */
+    /* Styles the custom file input button */
+    .file-input-button {
+        background: #e9ecef;
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        color: #495057;
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: inline-block;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* File Input Button Hover State */
+    /* Styles the button on hover */
+    .file-input-button:hover {
+        background: #dee2e6;
+        border-color: #adb5bd;
+    }
+
+    /* File Name Display */
+    /* Styles the filename display area */
+    .file-name {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-align: center;
+    }
+</style>
+
+<!-- Main Content -->
+<div class="container">
+    <!-- Page Title -->
+    <h1>Upload Soil Image</h1>
+    
+    <!-- Upload Form Container -->
+    <div class="upload-container">
+        <!-- Upload Form -->
+        <form class="upload-form" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <!-- File Input Group -->
+            <div class="form-group">
+                <label for="file">Select an image of your soil sample:</label>
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" id="file" class="form-control" accept="image/*" required>
+                    <div class="file-input-button">Choose File</div>
+                </div>
+                <div class="file-name" id="fileName">No file chosen</div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Upload and Analyze</button>
+            </div>
+        </form>
     </div>
+</div>
+
+<!-- JavaScript for File Name Display -->
+<script>
+    // Event listener for file input changes
+    document.getElementById('file').addEventListener('change', function(e) {
+        // Update the filename display
+        const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+        document.getElementById('fileName').textContent = fileName;
+    });
+</script>
 
 {% endblock %}

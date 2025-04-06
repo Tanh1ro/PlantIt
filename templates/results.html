@@ -1,0 +1,239 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- 
+  Results Page Template
+  This page displays the results of soil analysis and crop recommendations.
+  Features:
+  - Soil type information
+  - Weather data integration
+  - Crop recommendations with parameters
+  - Responsive design
+  - Interactive data display
+-->
+
+<!-- Custom Styles -->
+<style>
+    /* Base Styles */
+    /* Sets up the basic layout and typography */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        padding-top: 80px;
+    }
+
+    /* Main Container */
+    /* Centers content and sets maximum width */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Page Title */
+    /* Styles the main heading */
+    .page-title {
+        text-align: center;
+        color: #343a40;
+        margin-bottom: 2rem;
+        font-weight: 600;
+    }
+
+    /* Arrow Indicator */
+    /* Visual separator between title and content */
+    .arrow-down {
+        text-align: center;
+        font-size: 2rem;
+        color: #28a745;
+        margin-bottom: 2rem;
+    }
+
+    /* Row Layout */
+    /* Flex container for responsive columns */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+
+    /* Column Layout */
+    /* Flexible column sizing */
+    .col {
+        flex: 1;
+        padding: 0 15px;
+        min-width: 300px;
+    }
+
+    /* Image Container */
+    /* Styles for the soil image display */
+    .image-container {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Predicted Image */
+    /* Styles for the soil analysis image */
+    .predicted-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Soil Info Card */
+    /* Styles for soil type information */
+    .soil-info {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    /* Soil Info Heading */
+    /* Styles for soil info section title */
+    .soil-info h5 {
+        color: #495057;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    /* Crop Info Card */
+    /* Styles for crop recommendations */
+    .crop-info {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Crop Info Heading */
+    /* Styles for crop info section title */
+    .crop-info h5 {
+        color: #495057;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Data Table */
+    /* Styles for crop data table */
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+    }
+
+    /* Table Cells */
+    /* Styles for table cells and headers */
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    /* Table Header */
+    /* Styles for table header row */
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: #343a40;
+        color: white;
+    }
+
+    /* Table Row Striping */
+    /* Alternating row colors for better readability */
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* No Crops Message */
+    /* Styles for when no crops are recommended */
+    .no-crops {
+        text-align: center;
+        color: #dc3545;
+        font-weight: 500;
+        padding: 1rem;
+        background: #f8d7da;
+        border-radius: 5px;
+    }
+
+    /* Responsive Design */
+    /* Adjusts layout for smaller screens */
+    @media (max-width: 768px) {
+        .col {
+            flex: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+
+<!-- Main Content -->
+<div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">Soil Analysis Results</h1>
+    <div class="arrow-down">↓</div>
+
+    <!-- Results Grid -->
+    <div class="row">
+        <!-- Left Column: Soil Image and Info -->
+        <div class="col">
+            <!-- Soil Image Display -->
+            <div class="image-container">
+                <img class="predicted-image" src="{{ predicted_path }}" alt="Predicted soil image">
+            </div>
+
+            <!-- Soil Type Information -->
+            <div class="soil-info">
+                {% if soil=="Alluvial soil" %}
+                <h5>{{soil}} is rich in Potash but may lack Ph</h5>
+                {% elif soil=="Red soil" %}
+                <h5>{{soil}} is rich in Fe, Al, Mg and organic matter but may lack Lime, Ph, Mn, N, Potash</h5>
+                {% else %}
+                <h5>{{soil}} is rich in Fe, Lime, Ca, K, Al & Mg but may lack N, Ph, & organic matter</h5>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column: Crop Recommendations -->
+        <div class="col">
+            <div class="crop-info">
+                <!-- Location and Weather Context -->
+                <h5>Types of crops that can be grown in {{city}} in the {{soil}} with an average temperature of {{ weather_data.temperature }}°C and {{ weather_data.description }} are:</h5>
+
+                <!-- No Crops Message -->
+                {% if not crop_types %}
+                <div class="no-crops">
+                    No crops can be grown with this soil or weather conditions.
+                </div>
+                {% else %}
+                <!-- Crop Recommendations Table -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Crop type</th>
+                            <th>Min temp (°C)</th>
+                            <th>Max temp (°C)</th>
+                            <th>Avg rainfall (mm)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for crop in crop_types %}
+                        <tr>
+                            <td>{{crop.crop}}</td>
+                            <td>{{crop.temp_min}}</td>
+                            <td>{{crop.temp_max}}</td>
+                            <td>{{crop.rainfall}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} 

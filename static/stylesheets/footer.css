@@ -1,0 +1,287 @@
+/* Footer Stylesheet
+   Contains styles for the footer section and its components
+*/
+
+/* Main Footer Container
+   Dark background with padding and margin
+*/
+.footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 4rem 2rem 1rem;
+    margin-top: 4rem;
+    position: relative;
+}
+
+/* Footer Content Grid
+   Responsive grid layout for footer sections
+*/
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Footer Section
+   Individual sections within the footer
+*/
+.footer-section {
+    padding: 1rem;
+}
+
+/* Brand Section */
+.brand-section {
+    max-width: 300px;
+}
+
+/* Footer Logo
+   Styling for the application logo in footer
+*/
+.footer-logo {
+    max-width: 200px;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer Description
+   Styling for the footer description text
+*/
+.footer-description {
+    color: #a0a0a0;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Social Media Links */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: #4CAF50;
+    transform: translateY(-3px);
+}
+
+/* Section Headings
+   Styling for section titles with underline effect
+*/
+.footer-section h3 {
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+/* Heading Underline
+   Decorative underline for section titles
+*/
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #4CAF50;
+}
+
+/* Footer Links List
+   Styling for the list of links in each section
+*/
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* List Items
+   Spacing and margin for list items
+*/
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Footer Links
+   Styling for links with hover effects
+*/
+.footer-section ul li a {
+    color: #a0a0a0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Link Hover State
+   Color change on hover
+*/
+.footer-section ul li a:hover {
+    color: #4CAF50;
+}
+
+/* Contact Info Icons */
+.contact-info i {
+    color: #4CAF50;
+    width: 20px;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+    max-width: 300px;
+}
+
+.newsletter-section p {
+    color: #a0a0a0;
+    margin-bottom: 1rem;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.newsletter-form input {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.newsletter-form input::placeholder {
+    color: #a0a0a0;
+}
+
+.newsletter-form button {
+    padding: 0.8rem;
+    background: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background: #45a049;
+}
+
+/* Footer Bottom Section
+   Copyright and additional information
+*/
+.footer-bottom {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-bottom p {
+    color: #a0a0a0;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: #a0a0a0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #4CAF50;
+}
+
+/* Responsive Design
+   Mobile-specific styles
+*/
+@media (max-width: 768px) {
+    /* Adjusted padding for mobile */
+    .footer {
+        padding: 3rem 1.5rem 1rem;
+    }
+
+    /* Single column layout on mobile */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .brand-section {
+        max-width: 100%;
+    }
+
+    /* Centered underline for mobile */
+    .footer-section h3::after {
+        width: 40px;
+    }
+
+    /* Centered logo for mobile */
+    .footer-logo {
+        max-width: 180px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .footer-links {
+        justify-content: center;
+    }
+}
+
+/* Link Animation
+   Underline animation for footer links
+*/
+.footer-section ul li a {
+    position: relative;
+}
+
+/* Link Underline Effect
+   Animated underline on hover
+*/
+.footer-section ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+/* Link Hover Animation
+   Show underline on hover
+*/
+.footer-section ul li a:hover::after {
+    width: 100%;
+}

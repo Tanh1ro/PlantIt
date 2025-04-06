@@ -1,0 +1,613 @@
+{% extends "layout.html" %}
+
+<!-- 
+  Price Prediction Page Template
+  This page allows users to predict future prices of agricultural commodities.
+  Features:
+  - Interactive commodity selection
+  - Custom date picker
+  - Price predictions in multiple units
+  - Error handling and validation
+  - Responsive design
+-->
+
+{% block page_styles %}
+<!-- Custom CSS for Price Prediction Page -->
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/price_prediction.css') }}" />
+{% endblock %}
+
+{% block body %}
+<!-- Main Container -->
+<div class="price-prediction-container">
+  <!-- Prediction Card -->
+  <div class="prediction-card">
+    <!-- Page Header -->
+    <h2>Commodity Price Prediction</h2>
+    <p class="subtitle">Get accurate price forecasts for agricultural commodities</p>
+    
+    <!-- Prediction Form -->
+    <form method="POST" class="prediction-form">
+      <!-- Commodity Selection -->
+      <div class="form-group">
+        <label for="commodity">Commodity Name</label>
+        <div class="input-with-icon">
+          <i class="fas fa-seedling"></i>
+          <input type="text" name="commodity" id="commodity" placeholder="e.g., Rice, Wheat, Corn" required />
+        </div>
+      </div>
+
+      <!-- Date Selection -->
+      <div class="form-group">
+        <label for="date">Future Date</label>
+        <div class="input-with-icon">
+          <i class="fas fa-calendar-alt"></i>
+          <input type="text" name="date" id="date" placeholder="Click to select date" required readonly />
+        </div>
+        <!-- Custom Date Picker -->
+        <div class="custom-datepicker">
+          <!-- Date Picker Header -->
+          <div class="datepicker-header">
+            <button type="button" class="prev-month"><i class="fas fa-chevron-left"></i></button>
+            <div class="month-year">
+              <select class="month-select"></select>
+              <input type="number" class="year-input" min="2000" max="2100">
+            </div>
+            <button type="button" class="next-month"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <!-- Weekday Labels -->
+          <div class="datepicker-weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <!-- Calendar Days -->
+          <div class="datepicker-days"></div>
+          <!-- Date Picker Footer -->
+          <div class="datepicker-footer">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="button" class="apply-btn">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-chart-line"></i>
+        Predict Price
+      </button>
+    </form>
+
+    <!-- Prediction Results Section -->
+    {% if prediction %}
+    <div class="prediction-results">
+      <!-- Error Message Display -->
+      {% if prediction.error %}
+      <div class="error-message">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>{{ prediction.error }}</p>
+      </div>
+      {% else %}
+      <!-- Results Header -->
+      <div class="prediction-header">
+        <h3>Price Prediction for {{ prediction.commodity }}</h3>
+        <p class="prediction-date">Date: {{ prediction.date }}</p>
+      </div>
+      <!-- Price per Quintal -->
+      <div class="prediction-result-box">
+        <div class="result-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <div class="result-content">
+          <p class="result-label">Predicted Price (Per Quintal)</p>
+          <h3 class="result-value">₹{{ prediction.quintal }}</h3>
+        </div>
+      </div>
+      <!-- Price per Kilo -->
+      <div class="prediction-result-box">
+        <div class="result-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <div class="result-content">
+          <p class="result-label">Predicted Price (Per Kilo)</p>
+          <h3 class="result-value">₹{{ prediction.kilo }}</h3>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Required Stylesheets -->
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- JavaScript for Date Picker Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // DOM Elements
+  const dateInput = document.getElementById('date');
+  const datepicker = document.querySelector('.custom-datepicker');
+  const daysContainer = document.querySelector('.datepicker-days');
+  const monthSelect = document.querySelector('.month-select');
+  const yearInput = document.querySelector('.year-input');
+  const prevMonthBtn = document.querySelector('.prev-month');
+  const nextMonthBtn = document.querySelector('.next-month');
+  const cancelBtn = document.querySelector('.cancel-btn');
+  const applyBtn = document.querySelector('.apply-btn');
+
+  // Date Variables
+  let currentDate = new Date();
+  let selectedDate = null;
+
+  // Initialize Month Select Options
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  months.forEach((month, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = month;
+    monthSelect.appendChild(option);
+  });
+
+  // Update Calendar Display
+  function updateCalendar() {
+    const year = parseInt(yearInput.value);
+    const month = parseInt(monthSelect.value);
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+
+    daysContainer.innerHTML = '';
+    
+    // Add Empty Cells for Days Before First Day
+    for (let i = 0; i < startingDay; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.className = 'datepicker-day empty';
+      daysContainer.appendChild(emptyCell);
+    }
+
+    // Add Days of the Month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.className = 'datepicker-day';
+      dayCell.textContent = day;
+
+      const date = new Date(year, month, day);
+      if (selectedDate && date.toDateString() === selectedDate.toDateString()) {
+        dayCell.classList.add('selected');
+      }
+      if (date.toDateString() === new Date().toDateString()) {
+        dayCell.classList.add('today');
+      }
+      if (date < new Date()) {
+        dayCell.classList.add('disabled');
+      }
+
+      // Day Selection Handler
+      dayCell.addEventListener('click', () => {
+        if (!dayCell.classList.contains('disabled')) {
+          document.querySelectorAll('.datepicker-day').forEach(cell => {
+            cell.classList.remove('selected');
+          });
+          dayCell.classList.add('selected');
+          selectedDate = date;
+        }
+      });
+
+      daysContainer.appendChild(dayCell);
+    }
+  }
+
+  // Event Listeners
+  dateInput.addEventListener('click', (e) => {
+    e.stopPropagation();
+    datepicker.style.display = 'block';
+    updateCalendar();
+  });
+
+  monthSelect.addEventListener('change', updateCalendar);
+  yearInput.addEventListener('change', updateCalendar);
+  
+  // Previous Month Button Handler
+  prevMonthBtn.addEventListener('click', () => {
+    if (parseInt(monthSelect.value) === 0) {
+      monthSelect.value = 11;
+      yearInput.value = parseInt(yearInput.value) - 1;
+    } else {
+      monthSelect.value = parseInt(monthSelect.value) - 1;
+    }
+    updateCalendar();
+  });
+
+  // Next Month Button Handler
+  nextMonthBtn.addEventListener('click', () => {
+    if (parseInt(monthSelect.value) === 11) {
+      monthSelect.value = 0;
+      yearInput.value = parseInt(yearInput.value) + 1;
+    } else {
+      monthSelect.value = parseInt(monthSelect.value) + 1;
+    }
+    updateCalendar();
+  });
+
+  // Cancel Button Handler
+  cancelBtn.addEventListener('click', () => {
+    datepicker.style.display = 'none';
+    selectedDate = null;
+  });
+
+  // Apply Button Handler
+  applyBtn.addEventListener('click', () => {
+    if (selectedDate) {
+      const formattedDate = selectedDate.toLocaleDateString('en-GB');
+      dateInput.value = formattedDate;
+      datepicker.style.display = 'none';
+    }
+  });
+
+  // Close Datepicker on Outside Click
+  document.addEventListener('click', (e) => {
+    if (!datepicker.contains(e.target) && e.target !== dateInput) {
+      datepicker.style.display = 'none';
+    }
+  });
+
+  // Initialize with Current Date
+  monthSelect.value = currentDate.getMonth();
+  yearInput.value = currentDate.getFullYear();
+  updateCalendar();
+});
+</script>
+
+<!-- Custom Styles -->
+<style>
+/* Main Container Styles */
+.price-prediction-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Prediction Card Styles */
+.prediction-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.submit-btn:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.submit-btn i {
+  font-size: 1.2rem;
+}
+
+.prediction-results {
+  margin-top: 2rem;
+}
+
+.prediction-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.prediction-header h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prediction-date {
+  color: #666;
+  font-size: 1rem;
+}
+
+.prediction-result-box {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.prediction-result-box:hover {
+  transform: translateY(-5px);
+}
+
+.result-icon {
+  background: #4CAF50;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-icon i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.result-content {
+  flex: 1;
+}
+
+.result-label {
+  color: #666;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.result-value {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.error-message i {
+  font-size: 1.2rem;
+}
+
+.error-message p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.custom-datepicker {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+.datepicker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.month-year {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.month-select, .year-input {
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #f5f5f5;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.month-select {
+  width: 120px;
+}
+
+.year-input {
+  width: 80px;
+}
+
+.prev-month, .next-month {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #666;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.prev-month:hover, .next-month:hover {
+  background: #f5f5f5;
+  color: #4CAF50;
+}
+
+.datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.datepicker-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.datepicker-day {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.datepicker-day:hover:not(.disabled) {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.datepicker-day.selected {
+  background: #4CAF50;
+  color: white;
+  font-weight: 600;
+}
+
+.datepicker-day.today {
+  background: #e8f5e9;
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.datepicker-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.datepicker-day.empty {
+  visibility: hidden;
+}
+
+.datepicker-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.cancel-btn, .apply-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: transparent;
+  color: #666;
+}
+
+.apply-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #f5f5f5;
+}
+
+.apply-btn:hover {
+  background: #45a049;
+}
+</style>
+{% endblock %}

@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Basic meta tags and title -->
   <title>PlantIt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="Farmer's assisdtant" content="AgriBot PWA">
+  <meta name="Farmer's assistant" content="AgriBot PWA">
+
+  <!-- CSS Stylesheets -->
+  <!-- Bootstrap framework for responsive design -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Custom stylesheets for different components -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/buttons.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/footer.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/about.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/news.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/crop_prediction.css') }}">
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+
+  <!-- JavaScript Libraries -->
+  <!-- jQuery for DOM manipulation -->
   <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <!-- Bootstrap dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- PWA Configuration -->
+  <!-- App icons and manifest for Progressive Web App functionality -->
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icon-96.png') }}">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -17,62 +35,51 @@
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <link rel="icon" type="img/png" href="{{ url_for('static', filename='images/icon-96.png') }}">
 
+  <!-- Custom JavaScript files -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/crop_prediction.js') }}"></script>
 </head>
 
-<body style="background-color:rgb(6, 10, 63);">
+<body style="background-color:rgb(254, 255, 223);">
+  <!-- Navigation Bar -->
+  {% include 'navbar.html' %}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 1em;">
-  <a class="navbar-brand" href="">
-    <img src="/static/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-  PlantIt
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-       <a class="nav-link" href="{{ url_for('upload') }}">Home</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" href="https://visualize.data.gov.in/?inst=9ef84268-d588-465a-a308-a864a43d0070&embed=1" target="_blank">Daily prices</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" href="{{ url_for('news') }}">Agriculture news</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" href="{{ url_for('schemes') }}">Government schemes</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" id="installButton" href="#">Install as app</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('crop_prediction') }}">Crop Prediction</a>
-  </li>  
-  </ul>
-  <span class="navbar-text">
-      <a style="text-align:center" href="https://www.farmer.gov.in/" target="_blank">
-      More details
-      </a>
-  </span>
-</div>
-</nav>
+  <!-- Weather Widget -->
+  <!-- Displays real-time weather information for Bangalore -->
+  <div class="weather-container">
+    <a class="weatherwidget-io" href="https://forecast7.com/en/12d9777d59/bengaluru/" 
+       data-label_1="BANGALORE" data-label_2="WEATHER" data-theme="dark">
+       BANGALORE WEATHER
+    </a>
+  </div>
 
-<div style="margin-bottom: 1em;" class="weather";>
-<a class="weatherwidget-io" href="https://forecast7.com/en/12d9777d59/bengaluru/" data-label_1="BANGALORE" data-label_2="WEATHER" data-theme="gray" >BANGALORE WEATHER</a>
-<script>
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-</script>
-</div>
+  <!-- Weather Widget Script Loader -->
+  <!-- Dynamically loads the weather widget script -->
+  <script>
+    window.addEventListener("load", function() {
+        let weatherScript = document.createElement("script");
+        weatherScript.src = "https://weatherwidget.io/js/widget.min.js";
+        weatherScript.async = true;
+        document.body.appendChild(weatherScript);
+    });
+  </script>
 
-<div class="container">
-      {% block body %}
+  <!-- Main Content Container -->
+  <!-- This is where the content of individual pages will be rendered -->
+  <div class="container">
+    {% block body %}{% endblock %}
+  </div>
 
-      {% endblock %}
-</div>
+  <!-- Footer Section -->
+  {% include 'footer.html' %}
 
-<script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
+  <!-- Additional JavaScript files -->
+  <!-- Footer functionality -->
+  <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+  <!-- Main application logic -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <!-- PWA installation handling -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
 
 </body>
 </html>

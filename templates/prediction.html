@@ -2,72 +2,91 @@
 
 {% block body %}
 
-  <h1 style="text-align:center">Insights</h1>
-  <h2 style="text-align:center">&#8595;</h2><br></br>
+<!-- 
+  Prediction Results Page Template
+  This page displays the results of soil analysis and crop recommendations.
+  Features:
+  - Soil type information
+  - Weather data integration
+  - Crop recommendations with parameters
+  - Responsive design
+  - Data visualization
+-->
 
-  <div class="row">
+<!-- Page Header -->
+<h1 style="text-align:center">Insights</h1>
+<h2 style="text-align:center">&#8595;</h2><br></br>
+
+<!-- Results Grid -->
+<div class="row">
+    <!-- Left Column: Soil Image and Info -->
     <div class="col">
-  <div style="text-align: center;">
-    <img style="margin-bottom: 1em; width:70%;height:auto;" src="{{ predicted_path }}" alt="Predicted image">
-  </div>
-  <br></br>
-  <div style="margin-bottom: 1em;">
-  {% if soil=="Alluvial soil" %}
-  <h5 style="text-align:center">
-  {{soil}} is rich in Potash but may lack Ph
-  </h5>
+        <!-- Soil Image Display -->
+        <div style="text-align: center;">
+            <img style="margin-bottom: 1em; width:70%;height:auto;" src="{{ predicted_path }}" alt="Predicted image">
+        </div>
+        <br></br>
+        
+        <!-- Soil Type Information -->
+        <div style="margin-bottom: 1em;">
+            {% if soil=="Alluvial soil" %}
+            <h5 style="text-align:center">
+                {{soil}} is rich in Potash but may lack Ph
+            </h5>
 
-  {% elif soil=="Red soil" %}
-  <h5 style="text-align:center">
-  {{soil}} is rich in Fe, Al, Mg and organic matter but may lack Lime, Ph, Mn, N, Potash
-  </h5>
+            {% elif soil=="Red soil" %}
+            <h5 style="text-align:center">
+                {{soil}} is rich in Fe, Al, Mg and organic matter but may lack Lime, Ph, Mn, N, Potash
+            </h5>
 
-  {% else %}
-  <h5 style="text-align:center">
-  {{soil}} is rich in Fe, Lime, Ca, K, Al & Mg but may lack N, Ph, & organic matter
-  </h5>
-  {% endif %}
-  </div>
-
+            {% else %}
+            <h5 style="text-align:center">
+                {{soil}} is rich in Fe, Lime, Ca, K, Al & Mg but may lack N, Ph, & organic matter
+            </h5>
+            {% endif %}
+        </div>
     </div>
 
-  <div class="col">
-  <div style="margin-bottom: 1em; text-align:center">
-  <h5>
-  Types of crops that can be grown in {{city}} in the {{soil}} with an average temperature of {{ weather_data.temperature }}°C and {{ weather_data.description }} are -
-  </h5>
-  </div>
+    <!-- Right Column: Crop Recommendations -->
+    <div class="col">
+        <!-- Location and Weather Context -->
+        <div style="margin-bottom: 1em; text-align:center">
+            <h5>
+                Types of crops that can be grown in {{city}} in the {{soil}} with an average temperature of {{ weather_data.temperature }}°C and {{ weather_data.description }} are -
+            </h5>
+        </div>
 
-  {% if not crop_types %}
+        <!-- No Crops Message -->
+        {% if not crop_types %}
+            No crops can be grown with this soil or weather conditions.
+        {% else %}
+            <!-- Crop Recommendations Table -->
+            <br></br>
+            <table style="width: 50%; margin: auto; text-align:center;" class="table table-bordered">
+                <!-- Table Header -->
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="text-align: center;" scope="col">Crop type</th>
+                        <th style="text-align: center;" scope="col">Minimum temperature</th>
+                        <th style="text-align: center;" scope="col">Maximum temperature</th>
+                        <th style="text-align: center;" scope="col">Average rainfall</th>
+                    </tr>
+                </thead>
 
-    No crops can be grown with this soil or weather conditions.
-
-  {% else %}
-
-  <br></br>
-  <table style="width: 50%; margin: auto; text-align:center;" class="table table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th style="text-align: center;" scope="col">Crop type</th>
-      <th style="text-align: center;" scope="col">Minimum temperature</th>
-      <th style="text-align: center;" scope="col">Maximum temperature</th>
-      <th style="text-align: center;" scope="col">Average rainfall</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {% for crop in crop_types %}
-    <tr>
-      <td>{{crop.crop}}</td>
-      <td>{{crop.temp_min}}</td>
-      <td>{{crop.temp_max}}</td>
-      <td>{{crop.rainfall}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
- </table>
-   {% endif %}
-   <br></br><br></br>
-  </div>
+                <!-- Table Body -->
+                <tbody>
+                    {% for crop in crop_types %}
+                    <tr>
+                        <td>{{crop.crop}}</td>
+                        <td>{{crop.temp_min}}</td>
+                        <td>{{crop.temp_max}}</td>
+                        <td>{{crop.rainfall}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <br></br><br></br>
+    </div>
 </div>
 {% endblock %}
