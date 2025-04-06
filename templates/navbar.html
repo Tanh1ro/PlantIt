@@ -1,49 +1,86 @@
 <!-- Navigation Bar Component -->
-<!-- Fixed position navbar with transparent background and smooth transition effect -->
+<!-- 
+  This is the main navigation bar of the application.
+  Features:
+  - Fixed position at the top of the page
+  - Transparent background with smooth transition effect
+  - Responsive design with mobile-friendly toggle
+  - Contains links to all major sections of the application
+  - Includes PWA installation button
+-->
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark container-fluid justify-content-between"
   style="transition: all 0.3s ease;">
   
   <!-- Brand Logo and Name -->
+  <!-- 
+    Application logo and name that links to the home page
+    Uses a custom logo image with specific dimensions
+  -->
   <a class="navbar-brand" href="/">
     <img src="{{ url_for('static', filename='images/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
     PlantIt
   </a>
   
   <!-- Mobile Navigation Toggle Button -->
+  <!-- 
+    Hamburger menu button for mobile devices
+    Toggles the navigation menu on smaller screens
+  -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   
   <!-- Navigation Links Container -->
+  <!-- 
+    Contains all navigation links
+    Collapsible on mobile devices
+    Right-aligned on desktop
+  -->
   <div class="collapse navbar-collapse justify-content-end" id="navbarText">
     <ul class="navbar-nav">
       <!-- Home Link -->
+      <!-- Links to the main landing page -->
       <li class="nav-item active">
         <a class="nav-link" href="{{ url_for('upload') }}">Home</a>
       </li>
-      <!-- Price Prediction Link (External) -->
+      
+      <!-- Price Prediction Link -->
+      <!-- Links to the crop price prediction feature -->
       <li class="nav-item">
-        <a class="nav-link" href="https://visualize.data.gov.in/?inst=9ef84268-d588-465a-a308-a864a43d0070&embed=1"
-          target="_blank">Price Prediction</a>
+        <a class="nav-link" href="{{ url_for('price_prediction') }}">Price Prediction</a>
       </li>
+      
       <!-- Agriculture News Link -->
+      <!-- Links to the agricultural news section -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('news') }}">Agriculture news</a>
       </li>
+      
       <!-- Government Schemes Link -->
+      <!-- Links to the government schemes information page -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('schemes') }}">Government schemes</a>
       </li>
+      
       <!-- Crop Prediction Link -->
+      <!-- Links to the crop prediction feature -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('crop_prediction') }}">Crop Prediction</a>
       </li>
+      
       <!-- About Us Link -->
+      <!-- Links to the about us page -->
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('about_us') }}">About Us</a>
       </li>
+      
       <!-- PWA Install Button -->
+      <!-- 
+        Button to install the application as a PWA
+        Only visible when the app can be installed
+        Handled by install.js
+      -->
       <li class="nav-item">
         <a class="nav-link" id="installButton" href="#">Install as app</a>
       </li>

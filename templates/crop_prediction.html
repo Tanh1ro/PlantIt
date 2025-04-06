@@ -1,23 +1,39 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<!-- 
+  Crop Prediction Page Template
+  This page allows users to input soil and environmental parameters
+  to get crop recommendations and growing information.
+  Features:
+  - Interactive form with validation
+  - Real-time parameter checking
+  - Detailed crop recommendations
+  - Alternative crop suggestions
+  - Growing conditions and tips
+-->
+
 <!-- Link to Custom CSS for Crop Prediction Page -->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/crop_prediction.css') }}">
 
 <!-- Main Container for Crop Prediction Feature -->
 <div class="crop-prediction-container">
     <!-- Header Section -->
+    <!-- Contains page title and description -->
     <div class="prediction-header">
         <h2>Crop Prediction</h2>
         <p class="description">Enter your soil and environmental parameters to get crop recommendations.</p>
     </div>
 
     <!-- Validation Message Container -->
+    <!-- Displays form validation errors -->
     <div id="validation-message" class="alert d-none"></div>
 
     <!-- Main Prediction Form -->
+    <!-- Form for collecting soil and environmental data -->
     <form id="cropForm" method="POST" action="{{ url_for('crop_prediction') }}" class="prediction-form" novalidate>
         <!-- Soil Nutrient Parameters -->
+        <!-- Input fields for NPK values -->
         <div class="form-row">
             <!-- Nitrogen Input -->
             <div class="form-group col-md-4">
@@ -25,8 +41,7 @@
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="nitrogen" name="nitrogen" 
                            required min="0" max="140" step="0.01"
-                           placeholder="Enter nitrogen content"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter nitrogen content">
                     <span class="unit">kg/ha</span>
                 </div>
                 <div class="validation-message"></div>
@@ -38,8 +53,7 @@
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="phosphorus" name="phosphorus" 
                            required min="0" max="140" step="0.01"
-                           placeholder="Enter phosphorus content"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter phosphorus content">
                     <span class="unit">kg/ha</span>
                 </div>
                 <div class="validation-message"></div>
@@ -51,8 +65,7 @@
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="potassium" name="potassium" 
                            required min="0" max="140" step="0.01"
-                           placeholder="Enter potassium content"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter potassium content">
                     <span class="unit">kg/ha</span>
                 </div>
                 <div class="validation-message"></div>
@@ -60,6 +73,7 @@
         </div>
 
         <!-- Environmental Parameters -->
+        <!-- Input fields for temperature, humidity, and pH -->
         <div class="form-row">
             <!-- Temperature Input -->
             <div class="form-group col-md-4">
@@ -67,8 +81,7 @@
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="temperature" name="temperature" 
                            required min="0" max="50" step="0.1"
-                           placeholder="Enter temperature"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter temperature">
                     <span class="unit">°C</span>
                 </div>
                 <div class="validation-message"></div>
@@ -80,8 +93,7 @@
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="humidity" name="humidity" 
                            required min="0" max="100" step="0.1"
-                           placeholder="Enter humidity"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter humidity">
                     <span class="unit">%</span>
                 </div>
                 <div class="validation-message"></div>
@@ -89,12 +101,11 @@
 
             <!-- Soil pH Input -->
             <div class="form-group col-md-4">
-                <label for="soilPH">Soil pH</label>
+                <label for="ph">Soil pH</label>
                 <div class="input-wrapper">
-                    <input type="number" class="form-control" id="soilPH" name="soilPH" 
+                    <input type="number" class="form-control" id="ph" name="ph" 
                            required min="0" max="14" step="0.1"
-                           placeholder="Enter soil pH"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter soil pH">
                     <span class="unit">pH</span>
                 </div>
                 <div class="validation-message"></div>
@@ -102,14 +113,14 @@
         </div>
 
         <!-- Rainfall Parameter -->
+        <!-- Input field for annual rainfall -->
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="rainfall">Rainfall</label>
                 <div class="input-wrapper">
                     <input type="number" class="form-control" id="rainfall" name="rainfall" 
                            required min="0" max="300" step="0.1"
-                           placeholder="Enter annual rainfall"
-                           style="background-color: white !important; color: black !important;">
+                           placeholder="Enter annual rainfall">
                     <span class="unit">mm</span>
                 </div>
                 <div class="validation-message"></div>
@@ -117,6 +128,7 @@
         </div>
 
         <!-- Submit Button -->
+        <!-- Triggers the prediction process -->
         <div class="form-row">
             <div class="col-12 text-center">
                 <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
@@ -127,13 +139,22 @@
     </form>
 
     <!-- Results Container (Initially Hidden) -->
+    <!-- Displays prediction results after form submission -->
     <div id="resultsContainer" class="prediction-results" style="display: none;">
-        <h3>Recommended Crop</h3>
-        <div class="crop-details">
-            <!-- Predicted Crop Name -->
+        <!-- Main Recommended Crop Card -->
+        <!-- Shows the primary recommended crop with match score -->
+        <div class="main-crop-card">
+            <h3>Recommended Crop</h3>
             <div class="crop-name" id="predicted-crop"></div>
-            
+            <div class="crop-score">
+                <span class="score-label">Match Score:</span>
+                <span class="score-value" id="match-score">95%</span>
+            </div>
+        </div>
+        
+        <div class="crop-details">
             <!-- Optimal Growing Conditions -->
+            <!-- Displays ideal conditions for the recommended crop -->
             <div class="growing-conditions">
                 <h4>Optimal Growing Conditions</h4>
                 <div class="condition-item">
@@ -155,6 +176,7 @@
             </div>
 
             <!-- Growing Tips -->
+            <!-- Provides practical advice for growing the crop -->
             <div class="growing-tips">
                 <h4>Growing Tips</h4>
                 <div class="tip-item">
@@ -176,6 +198,7 @@
             </div>
 
             <!-- Alternative Crops Table -->
+            <!-- Shows other suitable crops with their parameters -->
             <div class="alternative-crops">
                 <h4>Alternative Crops</h4>
                 <table class="crop-table">
@@ -197,9 +220,275 @@
 </div>
 
 <!-- Required JavaScript Files -->
-{% block scripts %}
+<!-- Handles form validation and prediction logic -->
 <script src="{{ url_for('static', filename='js/crop_prediction.js') }}"></script>
+<!-- Contains crop information and growing conditions data -->
 <script src="{{ url_for('static', filename='js/crop_info.js') }}"></script>
-{% endblock %}
+
+<style>
+/* Results Container Styles */
+/* Styling for the prediction results section */
+.prediction-results {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+/* Main Crop Card Styles */
+/* Styling for the primary recommended crop display */
+.main-crop-card {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+}
+
+.main-crop-card h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.crop-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.crop-score {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 1.1rem;
+}
+
+.score-label {
+    margin-right: 0.5rem;
+}
+
+.score-value {
+    font-weight: 600;
+}
+
+/* Details Grid Layout */
+.crop-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Growing Conditions and Tips Styles */
+.growing-conditions,
+.growing-tips {
+    background: var(--content-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.growing-conditions h4,
+.growing-tips h4 {
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.condition-item,
+.tip-item {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.condition-item .label,
+.tip-item .label {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.condition-item .value,
+.tip-item .value {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* Alternative Crops Table Styles */
+.alternative-crops {
+    grid-column: 1 / -1;
+    background: var(--content-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.alternative-crops h4 {
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.crop-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.crop-table th,
+.crop-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.crop-table th {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.crop-table tr:hover {
+    background-color: var(--primary-light);
+    color: white;
+}
+
+.crop-table tr:hover td {
+    color: white;
+}
+</style>
+
+<script>
+document.getElementById('cropForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = parseFloat(value);
+    });
+
+    // Validate form data
+    if (!validateFormData(data)) {
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+
+    // Send data to server
+    fetch("{{ url_for('crop_prediction') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            showError(data.error);
+        } else {
+            displayResults(data);
+        }
+    })
+    .catch(error => {
+        showError('An error occurred while processing your request. Please try again.');
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        // Reset button state
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Get Crop Recommendations';
+    });
+});
+
+function validateFormData(data) {
+    const requiredFields = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall'];
+    for (const field of requiredFields) {
+        if (isNaN(data[field]) || data[field] === '') {
+            showError(`Please enter a valid value for ${field}`);
+            return false;
+        }
+    }
+    return true;
+}
+
+function showError(message) {
+    const validationMessage = document.getElementById('validation-message');
+    validationMessage.textContent = message;
+    validationMessage.classList.remove('d-none');
+    validationMessage.classList.add('alert-danger');
+}
+
+function displayResults(data) {
+    console.log('Received data:', data); // Debug log
+    
+    // Hide validation message
+    document.getElementById('validation-message').classList.add('d-none');
+    
+    // Show results container
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.style.display = 'block';
+    
+    // Update main crop
+    const mainCrop = data.crop || data.predicted_crop || 'No crop recommended';
+    document.getElementById('predicted-crop').textContent = mainCrop;
+    
+    // Update match score if available
+    const matchScore = data.match_score || data.score || '95';
+    document.getElementById('match-score').textContent = `${matchScore}%`;
+    
+    // Update growing conditions
+    document.getElementById('temp-range').textContent = data.temperature_range || 'Not specified';
+    document.getElementById('ph-range').textContent = data.ph_range || 'Not specified';
+    document.getElementById('rainfall-req').textContent = data.rainfall_requirements || 'Not specified';
+    document.getElementById('soil-type').textContent = data.soil_type || 'Not specified';
+    
+    // Update growing tips
+    document.getElementById('planting-season').textContent = data.planting_season || 'Not specified';
+    document.getElementById('harvest-time').textContent = data.harvest_time || 'Not specified';
+    document.getElementById('water-req').textContent = data.water_requirements || 'Not specified';
+    document.getElementById('fertilizer-needs').textContent = data.fertilizer_needs || 'Not specified';
+    
+    // Update alternative crops table
+    const tbody = document.getElementById('alternative-crops');
+    tbody.innerHTML = '';
+    
+    // Check if alternative crops exist in the response
+    if (data.alternative_crops && Array.isArray(data.alternative_crops)) {
+        data.alternative_crops.forEach(crop => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${crop.name || crop.crop || 'Unknown'}</td>
+                <td>${crop.match_score || crop.score || '0'}%</td>
+                <td>${crop.temperature || 'Not specified'}</td>
+                <td>${crop.ph_range || 'Not specified'}</td>
+                <td>${crop.rainfall || 'Not specified'}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else {
+        // If no alternative crops, add a message
+        const row = document.createElement('tr');
+        row.innerHTML = '<td colspan="5" class="text-center">No alternative crops available</td>';
+        tbody.appendChild(row);
+    }
+}
+</script>
 {% endblock %}
 

@@ -45,6 +45,7 @@
   {% include 'navbar.html' %}
 
   <!-- Weather Widget -->
+  <!-- Displays real-time weather information for Bangalore -->
   <div class="weather-container">
     <a class="weatherwidget-io" href="https://forecast7.com/en/12d9777d59/bengaluru/" 
        data-label_1="BANGALORE" data-label_2="WEATHER" data-theme="dark">
@@ -53,6 +54,7 @@
   </div>
 
   <!-- Weather Widget Script Loader -->
+  <!-- Dynamically loads the weather widget script -->
   <script>
     window.addEventListener("load", function() {
         let weatherScript = document.createElement("script");
@@ -63,6 +65,7 @@
   </script>
 
   <!-- Main Content Container -->
+  <!-- This is where the content of individual pages will be rendered -->
   <div class="container">
     {% block body %}{% endblock %}
   </div>
@@ -71,8 +74,11 @@
   {% include 'footer.html' %}
 
   <!-- Additional JavaScript files -->
+  <!-- Footer functionality -->
   <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+  <!-- Main application logic -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <!-- PWA installation handling -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/install.js') }}"></script>
 
 </body>

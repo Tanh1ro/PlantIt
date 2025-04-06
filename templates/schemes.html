@@ -1,74 +1,565 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<!-- Link to Custom CSS for Schemes Page -->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/schemes.css') }}">
+<!-- 
+  Government Schemes Page Template
+  This page helps farmers find suitable government schemes based on their needs.
+  Features:
+  - Interactive scheme selection form
+  - Real-time recommendations
+  - Detailed scheme information
+  - Application and details links
+  - Responsive card layout
+-->
 
-<!-- Main Schemes Container -->
+<!-- Required Stylesheets -->
+<!-- Custom styles for the schemes page -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='stylesheets/schemes.css') }}">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Main Container -->
 <div class="schemes-container">
     <!-- Page Title -->
     <h2>Find Suitable Government Schemes for Farmers</h2>
 
     <!-- Scheme Selection Form -->
-    <form method="POST" class="scheme-form">
+    <!-- Form for selecting scheme categories -->
+    <form method="POST" class="scheme-form" id="schemeForm">
         <!-- Income Support Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="income_support" id="income_support">
+            <input type="checkbox" name="income_support" id="income_support" value="1">
             <label for="income_support">Income Support</label>
         </div>
-
         <!-- Insurance Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="insurance" id="insurance">
+            <input type="checkbox" name="insurance" id="insurance" value="1">
             <label for="insurance">Insurance</label>
         </div>
-
         <!-- Credit Facilities Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="credit" id="credit">
+            <input type="checkbox" name="credit" id="credit" value="1">
             <label for="credit">Credit Facilities</label>
         </div>
-
         <!-- Irrigation Support Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="irrigation" id="irrigation">
+            <input type="checkbox" name="irrigation" id="irrigation" value="1">
             <label for="irrigation">Irrigation Support</label>
         </div>
-
-        <!-- Soil Health Improvement Option -->
+        <!-- Soil Health Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="soil_health" id="soil_health">
+            <input type="checkbox" name="soil_health" id="soil_health" value="1">
             <label for="soil_health">Soil Health Improvement</label>
         </div>
-
-        <!-- Livestock & Dairy Farming Option -->
+        <!-- Livestock Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="livestock" id="livestock">
+            <input type="checkbox" name="livestock" id="livestock" value="1">
             <label for="livestock">Livestock & Dairy Farming</label>
         </div>
-
         <!-- Market Access Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="market_access" id="market_access">
+            <input type="checkbox" name="market_access" id="market_access" value="1">
             <label for="market_access">Market Access</label>
         </div>
-
         <!-- Organic Farming Option -->
         <div class="scheme-option">
-            <input type="checkbox" name="organic_farming" id="organic_farming">
+            <input type="checkbox" name="organic_farming" id="organic_farming" value="1">
             <label for="organic_farming">Organic Farming</label>
         </div>
         
         <!-- Submit Button -->
-        <button type="submit">Get Recommendations</button>
+        <!-- Triggers scheme recommendations -->
+        <button type="submit" class="submit-button">
+            <span class="button-text">Get Recommendations</span>
+            <span class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </button>
     </form>
 
-    <!-- Recommendations Display Section -->
-    {% if recommendations %}
-        <div class="recommendations">
-            <h3>Recommended Schemes:</h3>
-            <p>{{ recommendations }}</p>
+    <!-- Recommendations Section -->
+    <!-- Displays recommended schemes after form submission -->
+    <div class="recommendations-section" style="display: none;">
+        <h3>Recommended Schemes</h3>
+        <div class="recommendations-grid">
+            {% if recommendations %}
+                <!-- Loop through recommended schemes -->
+                {% for scheme in recommendations %}
+                <!-- Individual Scheme Card -->
+                <div class="scheme-card">
+                    <!-- Card Header with Scheme Name -->
+                    <div class="card-header">
+                        <i class="fas fa-seedling"></i>
+                        <h4>{{ scheme.name }}</h4>
+                    </div>
+                    <!-- Card Body with Scheme Details -->
+                    <div class="card-body">
+                        <!-- Scheme Description -->
+                        <p class="description">{{ scheme.description }}</p>
+                        <!-- Key Benefits Section -->
+                        <div class="benefits">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                {% for benefit in scheme.benefits %}
+                                <li><i class="fas fa-check-circle"></i> {{ benefit }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- Eligibility Criteria Section -->
+                        <div class="eligibility">
+                            <h5>Eligibility:</h5>
+                            <ul>
+                                {% for criteria in scheme.eligibility %}
+                                <li><i class="fas fa-user-check"></i> {{ criteria }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Card Footer with Action Buttons -->
+                    <div class="card-footer">
+                        <!-- Apply Now Button -->
+                        <a href="{{ scheme.apply_link }}" class="apply-button" target="_blank">
+                            <i class="fas fa-file-alt"></i> Apply Now
+                        </a>
+                        <!-- Learn More Button -->
+                        <a href="{{ scheme.details_link }}" class="details-button" target="_blank">
+                            <i class="fas fa-info-circle"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- No Recommendations Message -->
+                <div class="no-recommendations">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No schemes found matching your criteria. Please try different options.</p>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 </div>
+
+<!-- Custom Styles -->
+<style>
+/* Main Container Styles */
+/* Sets maximum width and padding for the container */
+.schemes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Page Title Styles */
+/* Styling for the main heading */
+.schemes-container h2 {
+    font-size: 2.5rem;
+    color: #2e7d32;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Form Styles */
+/* Grid layout for scheme options */
+.scheme-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Scheme Option Styles */
+/* Styling for individual scheme checkboxes */
+.scheme-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect for Scheme Options */
+.scheme-option:hover {
+    background: #e8f5e9;
+    transform: translateY(-2px);
+}
+
+/* Checkbox Styles */
+.scheme-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2e7d32;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Label Styles */
+.scheme-option label {
+    font-size: 1.1rem;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Submit Button Styles */
+.submit-button {
+    grid-column: 1 / -1;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    color: white;
+    background: #2e7d32;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Hover Effect for Submit Button */
+.submit-button:hover {
+    background: #1b5e20;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Spinner Styles */
+.loading-spinner {
+    font-size: 1.2rem;
+}
+
+/* Recommendations Section Styles */
+.recommendations-section {
+    margin-top: 4rem;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+/* Visible State for Recommendations */
+.recommendations-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Recommendations Title Styles */
+.recommendations-section h3 {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+/* Title Underline Decoration */
+.recommendations-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #4caf50;
+    border-radius: 2px;
+}
+
+/* Recommendations Grid Layout */
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Scheme Card Styles */
+.scheme-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Fade In Animation */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effect for Scheme Cards */
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+</style>
+
+<script>
+// Sample scheme data
+const schemeData = {
+    "income_support": {
+        name: "PM Kisan Samman Nidhi",
+        description: "Direct income support scheme for farmers with small and marginal land holdings.",
+        benefits: [
+            "₹6,000 per year in three equal installments",
+            "Direct transfer to bank accounts",
+            "No middlemen involved",
+            "Covers all farmer families"
+        ],
+        eligibility: [
+            "Small and marginal farmers",
+            "Land holding up to 2 hectares",
+            "Valid bank account",
+            "Aadhaar linked bank account"
+        ],
+        apply_link: "https://pmkisan.gov.in/",
+        details_link: "https://pmkisan.gov.in/SchemeDetails.aspx"
+    },
+    "insurance": {
+        name: "Pradhan Mantri Fasal Bima Yojana",
+        description: "Crop insurance scheme to protect farmers against losses due to natural calamities.",
+        benefits: [
+            "Comprehensive risk coverage",
+            "Low premium rates",
+            "Quick claim settlement",
+            "Covers post-harvest losses"
+        ],
+        eligibility: [
+            "All farmers growing notified crops",
+            "Compulsory for loanee farmers",
+            "Optional for non-loanee farmers",
+            "Valid bank account required"
+        ],
+        apply_link: "https://pmfby.gov.in/",
+        details_link: "https://pmfby.gov.in/scheme-details"
+    },
+    "credit": {
+        name: "Kisan Credit Card Scheme",
+        description: "Provides farmers with timely access to credit for agricultural needs.",
+        benefits: [
+            "Flexible credit limit up to ₹3 lakh",
+            "Low interest rates",
+            "Insurance coverage included",
+            "ATM facility available"
+        ],
+        eligibility: [
+            "Individual farmers",
+            "Joint borrowers",
+            "Tenant farmers",
+            "Sharecroppers"
+        ],
+        apply_link: "https://www.nabard.org/",
+        details_link: "https://www.nabard.org/content1.aspx?id=1008&catid=8&mid=536"
+    },
+    "irrigation": {
+        name: "Per Drop More Crop",
+        description: "Micro-irrigation scheme to promote water use efficiency in agriculture.",
+        benefits: [
+            "55% subsidy on drip/sprinkler systems",
+            "Water saving up to 50%",
+            "Increased crop yield",
+            "Reduced fertilizer usage"
+        ],
+        eligibility: [
+            "Individual farmers",
+            "Group of farmers",
+            "Cooperative societies",
+            "Registered companies"
+        ],
+        apply_link: "https://pmksy.gov.in/",
+        details_link: "https://pmksy.gov.in/microirrigation/Archive/PDMC_Guidelines.pdf"
+    },
+    "soil_health": {
+        name: "Soil Health Card Scheme",
+        description: "Provides farmers with soil health cards containing crop-wise recommendations.",
+        benefits: [
+            "Free soil testing",
+            "Nutrient management advice",
+            "Crop-specific recommendations",
+            "Improved soil fertility"
+        ],
+        eligibility: [
+            "All farmers",
+            "No land holding limit",
+            "Valid Aadhaar number",
+            "Registered mobile number"
+        ],
+        apply_link: "https://soilhealth.dac.gov.in/",
+        details_link: "https://soilhealth.dac.gov.in/PublicReports/SoilHealthCard"
+    },
+    "livestock": {
+        name: "National Livestock Mission",
+        description: "Comprehensive scheme for development of livestock sector.",
+        benefits: [
+            "Subsidy for animal housing",
+            "Feed and fodder development",
+            "Breeding infrastructure",
+            "Skill development training"
+        ],
+        eligibility: [
+            "Individual farmers",
+            "Farmer producer organizations",
+            "Self-help groups",
+            "Registered companies"
+        ],
+        apply_link: "https://dahd.nic.in/",
+        details_link: "https://dahd.nic.in/schemes/programmes/national-livestock-mission"
+    },
+    "market_access": {
+        name: "e-NAM (National Agricultural Market)",
+        description: "Online trading platform for agricultural commodities.",
+        benefits: [
+            "Transparent price discovery",
+            "Better price realization",
+            "Reduced transaction costs",
+            "Wider market access"
+        ],
+        eligibility: [
+            "Registered traders",
+            "Commission agents",
+            "Farmer producer organizations",
+            "Processors and exporters"
+        ],
+        apply_link: "https://www.enam.gov.in/",
+        details_link: "https://www.enam.gov.in/web/"
+    },
+    "organic_farming": {
+        name: "Paramparagat Krishi Vikas Yojana",
+        description: "Promotes organic farming through cluster approach.",
+        benefits: [
+            "₹50,000 per hectare support",
+            "Training and capacity building",
+            "Certification assistance",
+            "Market linkage support"
+        ],
+        eligibility: [
+            "Individual farmers",
+            "Group of farmers",
+            "Farmer producer organizations",
+            "Registered companies"
+        ],
+        apply_link: "https://pgsindia-ncof.gov.in/",
+        details_link: "https://pgsindia-ncof.gov.in/staticfiles/schemes/PKVY-Guidelines.pdf"
+    }
+};
+
+document.getElementById('schemeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitButton = this.querySelector('.submit-button');
+    const buttonText = submitButton.querySelector('.button-text');
+    const loadingSpinner = submitButton.querySelector('.loading-spinner');
+    const recommendationsSection = document.querySelector('.recommendations-section');
+    
+    // Show loading state
+    buttonText.style.display = 'none';
+    loadingSpinner.style.display = 'block';
+    
+    // Get selected options
+    const formData = new FormData(this);
+    const selectedOptions = {};
+    for (let [key, value] of formData.entries()) {
+        selectedOptions[key] = value;
+    }
+    
+    // Simulate API call delay
+    setTimeout(() => {
+        // Filter schemes based on selected options
+        const recommendations = Object.entries(selectedOptions)
+            .filter(([key, value]) => value === "1")
+            .map(([key]) => schemeData[key])
+            .filter(Boolean);
+        
+        // Clear existing recommendations
+        const recommendationsGrid = document.querySelector('.recommendations-grid');
+        recommendationsGrid.innerHTML = '';
+        
+        if (recommendations.length > 0) {
+            // Create and append new scheme cards
+            recommendations.forEach(scheme => {
+                const card = createSchemeCard(scheme);
+                recommendationsGrid.appendChild(card);
+            });
+        } else {
+            // Show no recommendations message
+            recommendationsGrid.innerHTML = `
+                <div class="no-recommendations">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No schemes found matching your criteria. Please try different options.</p>
+                </div>
+            `;
+        }
+        
+        // Show recommendations section
+        recommendationsSection.style.display = 'block';
+        setTimeout(() => {
+            recommendationsSection.classList.add('visible');
+        }, 100);
+        
+        // Reset button state
+        buttonText.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+    }, 1000);
+});
+
+function createSchemeCard(scheme) {
+    const card = document.createElement('div');
+    card.className = 'scheme-card';
+    card.innerHTML = `
+        <div class="card-header">
+            <i class="fas fa-seedling"></i>
+            <h4>${scheme.name}</h4>
+        </div>
+        <div class="card-body">
+            <p class="description">${scheme.description}</p>
+            <div class="benefits">
+                <h5>Key Benefits:</h5>
+                <ul>
+                    ${scheme.benefits.map(benefit => `
+                        <li><i class="fas fa-check-circle"></i> ${benefit}</li>
+                    `).join('')}
+                </ul>
+            </div>
+            <div class="eligibility">
+                <h5>Eligibility:</h5>
+                <ul>
+                    ${scheme.eligibility.map(criteria => `
+                        <li><i class="fas fa-user-check"></i> ${criteria}</li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="${scheme.apply_link}" class="apply-button" target="_blank">
+                <i class="fas fa-file-alt"></i> Apply Now
+            </a>
+            <a href="${scheme.details_link}" class="details-button" target="_blank">
+                <i class="fas fa-info-circle"></i> Learn More
+            </a>
+        </div>
+    `;
+    return card;
+}
+</script>
+
 {% endblock %}

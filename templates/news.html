@@ -1,25 +1,40 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<!-- 
+  News Page Template
+  This page displays agricultural news articles from various sources.
+  Features:
+  - Responsive grid layout for news cards
+  - Article summaries and links
+  - Hover effects and animations
+  - Fallback message when no news is available
+-->
+
 <!-- Main News Container -->
 <div class="container">
     <!-- Page Title -->
     <h2 class="text-center mb-4">Latest Agricultural News</h2>
     
     <!-- News Articles Grid -->
+    <!-- Responsive grid layout for news articles -->
     <div class="news-grid">
         {% if articles %}
             <!-- Loop through available articles -->
+            <!-- Displays each article in a card format -->
             {% for article in articles %}
                 <!-- Individual News Card -->
+                <!-- Card container for each news article -->
                 <div class="news-card">
                     <div class="news-content">
                         <!-- Article Title with Link -->
+                        <!-- Clickable title that opens article in new tab -->
                         <h3 class="news-title">
                             <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
                         </h3>
                         
                         <!-- Article Summary/Description -->
+                        <!-- Displays article summary or description if available -->
                         <p class="news-summary">
                             {% if article.description %}
                                 {{ article.description }}
@@ -31,6 +46,7 @@
                         </p>
                         
                         <!-- Read More Link -->
+                        <!-- Link to read the full article -->
                         <a href="{{ article.url }}" class="news-link" target="_blank">
                             Read More <i class="fas fa-arrow-right"></i>
                         </a>
@@ -39,6 +55,7 @@
             {% endfor %}
         {% else %}
             <!-- No News Available Message -->
+            <!-- Displayed when no articles are available -->
             <div class="no-news">
                 <p>No news available at the moment. Please check back later.</p>
             </div>
@@ -51,6 +68,7 @@
 <!-- Custom Styles for News Page -->
 <style>
     /* News Grid Layout */
+    /* Responsive grid with auto-fill columns */
     .news-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -59,6 +77,7 @@
     }
 
     /* News Card Styling */
+    /* Card container with shadow and hover effects */
     .news-card {
         background: white;
         border-radius: 8px;
@@ -68,12 +87,14 @@
     }
 
     /* Hover Effect for News Cards */
+    /* Elevates card and enhances shadow on hover */
     .news-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     /* News Title Styling */
+    /* Styling for article titles */
     .news-title {
         margin-bottom: 10px;
     }
@@ -84,12 +105,14 @@
     }
 
     /* News Summary Styling */
+    /* Styling for article summaries */
     .news-summary {
         color: #666;
         margin-bottom: 15px;
     }
 
     /* Read More Link Styling */
+    /* Styling for the read more link with icon */
     .news-link {
         color: #007bff;
         text-decoration: none;
@@ -102,6 +125,7 @@
     }
 
     /* No News Message Styling */
+    /* Styling for the no news available message */
     .no-news {
         text-align: center;
         padding: 20px;
@@ -112,6 +136,8 @@
 
 <!-- Required Scripts -->
 <!-- Font Awesome for Icons -->
+<!-- Provides icons for the news cards -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <!-- Custom News JavaScript -->
+<!-- Handles news card interactions and animations -->
 <script src="{{ url_for('static', filename='js/news.js') }}"></script>

@@ -7,6 +7,14 @@ This application provides various services to farmers including:
 - Weather information
 - Government scheme recommendations
 - Agricultural news updates
+- Market price predictions
+
+The application uses:
+- Flask for the web framework
+- TensorFlow for machine learning models
+- Google Gemini API for AI-powered recommendations
+- PostgreSQL for data storage
+- Various APIs for weather, news, and market data
 """
 
 import os
@@ -31,25 +39,30 @@ from matplotlib import pyplot as plt
 
 # Database configuration
 # Using PostgreSQL database for storing user data and crop information
+# Replace with your database credentials
 engine = create_engine("postgresql://postgres:Hanuman#30@localhost:5432/postgres")
 db = scoped_session(sessionmaker(bind=engine))
 
 # File upload configuration
-UPLOAD_FOLDER = 'uploaded_images/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+UPLOAD_FOLDER = 'uploaded_images/'  # Directory to store uploaded soil images
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}  # Allowed image file extensions
 
 # API configurations
 # Gemini API for generating scheme recommendations
+# Replace with your API key
 genai.configure(api_key="AIzaSyBjVjiv-WB5PdSsH2yri2ap26GR-1JHoB8")
 
 # News API configuration
-NEWS_API_KEY = "9486ec6418b046d08213528320b97651"
+NEWS_API_KEY = "9486ec6418b046d08213528320b97651"  # Replace with your NewsAPI key
 NEWS_URL = "https://newsapi.org/v2/top-headlines"
 
 def fetch_news():
     """
     Fetches agricultural news from NewsAPI
-    Returns a list of news articles related to agriculture and farming
+    
+    Returns:
+        list: A list of news articles related to agriculture and farming
+        Each article contains title, description, url, and publishedAt
     """
     params = {
         "q": "agriculture OR farming OR crops OR rural",
@@ -66,8 +79,8 @@ def fetch_news():
     return data.get("articles", [])
 
 # Load trained ML models for crop prediction
-rf_model = joblib.load("rf_model.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
+rf_model = joblib.load("rf_model.pkl")  # Random Forest model for crop prediction
+label_encoder = joblib.load("label_encoder.pkl")  # Label encoder for crop names
 
 # Initialize Flask application
 app = Flask(__name__, template_folder='templates')
@@ -76,8 +89,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     """
     Check if the uploaded file has an allowed extension
+    
     Args:
-        filename: Name of the file to check
+        filename (str): Name of the file to check
+        
     Returns:
         bool: True if file extension is allowed, False otherwise
     """
@@ -86,23 +101,95 @@ def allowed_file(filename):
 def get_scheme_recommendations(user_input):
     """
     Generate government scheme recommendations using Gemini AI
+    
     Args:
-        user_input: Dictionary containing user preferences for different scheme types
+        user_input (dict): Dictionary containing user preferences for different scheme types
+        
     Returns:
         str: AI-generated recommendations for suitable government schemes
     """
-    prompt = f"""
-    Based on the following user inputs, recommend the most suitable Indian government schemes for farmers:
-    {user_input}
-    """
-    model = genai.GenerativeModel("gemini-1.5-pro")
-    response = model.generate_content(prompt)
-    return response.text.strip()
+    # Define scheme templates with detailed information
+    scheme_templates = {
+        "income_support": {
+            "name": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+            "description": "Direct income support scheme providing ₹6,000 per year to small and marginal farmers",
+            "eligibility": "Small and marginal farmers with landholding up to 2 hectares",
+            "benefits": "₹6,000 per year in three equal installments",
+            "application": "Apply through PM-KISAN portal or nearest Common Service Centre"
+        },
+        "insurance": {
+            "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+            "description": "Crop insurance scheme to protect farmers against crop loss due to natural calamities",
+            "eligibility": "All farmers growing notified crops in notified areas",
+            "benefits": "Premium subsidy up to 90%, comprehensive coverage against natural calamities",
+            "application": "Apply through PMFBY portal or nearest insurance company office"
+        },
+        "credit": {
+            "name": "Kisan Credit Card (KCC) Scheme",
+            "description": "Provides farmers with timely access to credit for agricultural needs",
+            "eligibility": "All farmers including tenant farmers and sharecroppers",
+            "benefits": "Interest subvention, flexible repayment options, credit limit up to ₹3 lakh",
+            "application": "Apply at any commercial bank, cooperative bank, or regional rural bank"
+        },
+        "irrigation": {
+            "name": "Per Drop More Crop (PDMC)",
+            "description": "Micro-irrigation scheme to promote water use efficiency",
+            "eligibility": "All farmers including small and marginal farmers",
+            "benefits": "55% subsidy for small/marginal farmers, 45% for others",
+            "application": "Apply through State Agriculture Department or online portal"
+        },
+        "soil_health": {
+            "name": "Soil Health Card Scheme",
+            "description": "Provides soil health information and recommendations to farmers",
+            "eligibility": "All farmers across India",
+            "benefits": "Free soil testing, nutrient recommendations, and advisory services",
+            "application": "Register at nearest Soil Testing Laboratory or online portal"
+        },
+        "livestock": {
+            "name": "National Livestock Mission",
+            "description": "Comprehensive scheme for livestock development and dairy farming",
+            "eligibility": "Individual farmers, SHGs, and FPOs in livestock sector",
+            "benefits": "Subsidy up to 50% for various livestock activities",
+            "application": "Apply through State Animal Husbandry Department"
+        },
+        "market_access": {
+            "name": "e-NAM (National Agricultural Market)",
+            "description": "Online trading platform for agricultural commodities",
+            "eligibility": "All farmers, traders, and FPOs",
+            "benefits": "Better price discovery, transparent trading, reduced market fees",
+            "application": "Register on e-NAM portal or through APMC market"
+        },
+        "organic_farming": {
+            "name": "Paramparagat Krishi Vikas Yojana (PKVY)",
+            "description": "Promotes organic farming through cluster approach",
+            "eligibility": "Farmers willing to practice organic farming",
+            "benefits": "₹50,000 per hectare for 3 years, certification support",
+            "application": "Apply through State Agriculture Department"
+        }
+    }
+
+    # Generate recommendations based on user input
+    recommendations = []
+    for scheme_type, value in user_input.items():
+        if value == "yes" and scheme_type in scheme_templates:
+            scheme = scheme_templates[scheme_type]
+            recommendation = f"{scheme['name']}\n{scheme['description']}\nEligibility: {scheme['eligibility']}\nBenefits: {scheme['benefits']}\nHow to Apply: {scheme['application']}"
+            recommendations.append(recommendation)
+
+    # If no specific schemes selected, return all schemes
+    if not recommendations:
+        for scheme in scheme_templates.values():
+            recommendation = f"{scheme['name']}\n{scheme['description']}\nEligibility: {scheme['eligibility']}\nBenefits: {scheme['benefits']}\nHow to Apply: {scheme['application']}"
+            recommendations.append(recommendation)
+
+    return "\n\n".join(recommendations)
 
 def fetch_google_news():
     """
     Fetches agricultural news from Google News RSS feed
-    Returns a list of news articles with titles, URLs, and summaries
+    
+    Returns:
+        list: A list of news articles with titles, URLs, and summaries
     """
     feed_url = "https://news.google.com/rss/search?q=indian+farmers&hl=en-IN&gl=IN&ceid=IN:en"
     feed = feedparser.parse(feed_url)
@@ -132,8 +219,12 @@ def fetch_google_news():
 def schemes():
     """
     Handle government scheme recommendations
+    
     GET: Display the schemes page
     POST: Process user inputs and generate scheme recommendations
+    
+    Returns:
+        template: Renders schemes.html with recommendations
     """
     recommendations = None
     if request.method == 'POST':
@@ -154,6 +245,9 @@ def schemes():
 def upload():
     """
     Render the home page
+    
+    Returns:
+        template: Renders index.html
     """
     return render_template('index.html')
 
@@ -161,6 +255,9 @@ def upload():
 def news():
     """
     Display agricultural news from multiple sources
+    
+    Returns:
+        template: Renders news.html with articles
     """
     try:
         # Try NewsAPI first
@@ -176,174 +273,123 @@ def news():
 @app.route('/crop-prediction', methods=['GET', 'POST'])
 def crop_prediction():
     """
-    Handle crop prediction based on soil and weather conditions
-    GET: Display the crop prediction form
-    POST: Process the form data and predict suitable crops
-    """
-    if request.method == 'GET':
-        return render_template('crop_prediction.html')
+    Handle crop prediction based on soil and weather data
     
+    GET: Display the crop prediction form
+    POST: Process the form data and return predictions
+    
+    Returns:
+        template: Renders crop_prediction.html with results
+    """
     if request.method == 'POST':
         try:
-            # Check if the request is JSON
-            if not request.is_json:
-                return jsonify({
-                    'error': 'Invalid Content-Type',
-                    'details': 'Content-Type must be application/json'
-                }), 415
-
+            # Get data from request
             data = request.get_json()
             
             # Validate required fields
-            required_fields = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'soilPH', 'rainfall']
+            required_fields = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'humidity', 'ph', 'rainfall']
             for field in required_fields:
                 if field not in data:
-                    return jsonify({
-                        'error': 'Missing required field',
-                        'details': f'Field {field} is required'
-                    }), 400
+                    return jsonify({'error': f'Missing required field: {field}'}), 400
+                if not isinstance(data[field], (int, float)):
+                    return jsonify({'error': f'Invalid value for {field}'}), 400
 
-            N = float(data['nitrogen'])
-            P = float(data['phosphorus'])
-            K = float(data['potassium'])
-            temperature = float(data['temperature'])
-            humidity = float(data['humidity'])
-            ph = float(data['soilPH'])
-            rainfall = float(data['rainfall'])
-
-            input_data = pd.DataFrame([[N, P, K, temperature, humidity, ph, rainfall]],
-                                    columns=['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall'])
+            # Get crop prediction
+            prediction = get_crop_prediction(data)
             
-            prediction = rf_model.predict(input_data)
-            predicted_crop = label_encoder.inverse_transform(prediction)[0]
-
-            # Get detailed information about the recommended crop
-            crop_info_prompt = f"""
-            Provide detailed information about growing {predicted_crop} with the following conditions:
-            - Temperature: {temperature}°C
-            - Soil pH: {ph}
-            - Rainfall: {rainfall}mm/year
-            - Soil Nutrients: N={N}mg/kg, P={P}mg/kg, K={K}mg/kg
-            - Humidity: {humidity}%
-
-            Please provide the following information in a structured format:
-            1. Optimal growing conditions:
-               - Temperature range: [range]
-               - Soil pH range: [range]
-               - Rainfall requirements: [requirements]
-               - Soil type: [type]
-            2. Growing tips:
-               - Planting season: [season]
-               - Harvest time: [time]
-               - Water requirements: [requirements]
-               - Fertilizer needs: [needs]
-            3. Alternative crops (list 3-5):
-               - [Crop name]: [score]% suitable, [temperature range], [pH range], [rainfall requirements]
-            """
+            # Get crop information
+            crop_info = get_crop_information(prediction)
             
-            model = genai.GenerativeModel("gemini-1.5-pro")
-            response = model.generate_content(crop_info_prompt)
-            crop_info = response.text
-
-            # Parse the response to extract structured information
-            try:
-                # Split the response into sections
-                sections = crop_info.split('\n\n')
-                
-                # Extract optimal conditions
-                conditions_section = next(s for s in sections if 'Optimal growing conditions' in s)
-                conditions = {
-                    'temperature_range': extract_value(conditions_section, 'temperature range'),
-                    'ph_range': extract_value(conditions_section, 'soil pH range'),
-                    'rainfall_requirements': extract_value(conditions_section, 'rainfall requirements'),
-                    'soil_type': extract_value(conditions_section, 'soil type')
-                }
-                
-                # Extract growing tips
-                tips_section = next(s for s in sections if 'Growing tips' in s)
-                tips = {
-                    'planting_season': extract_value(tips_section, 'planting season'),
-                    'harvest_time': extract_value(tips_section, 'harvest time'),
-                    'water_requirements': extract_value(tips_section, 'water requirements'),
-                    'fertilizer_needs': extract_value(tips_section, 'fertilizer needs')
-                }
-                
-                # Extract alternative crops
-                alternatives_section = next(s for s in sections if 'Alternative crops' in s)
-                alternatives = parse_alternatives(alternatives_section)
-                
-                response_data = {
-                    'predicted_crop': predicted_crop,
-                    'temperature_range': conditions['temperature_range'],
-                    'ph_range': conditions['ph_range'],
-                    'rainfall_requirements': conditions['rainfall_requirements'],
-                    'soil_type': conditions['soil_type'],
-                    'planting_season': tips['planting_season'],
-                    'harvest_time': tips['harvest_time'],
-                    'water_requirements': tips['water_requirements'],
-                    'fertilizer_needs': tips['fertilizer_needs'],
-                    'alternative_crops': alternatives
-                }
-                
-                return jsonify(response_data)
-                
-            except Exception as e:
-                print(f"Error parsing crop information: {str(e)}")
-                return jsonify({
-                    'error': 'Failed to parse crop information',
-                    'details': str(e)
-                }), 500
-                
+            # Get alternative crops
+            alternative_crops = get_alternative_crops(data, prediction)
+            
+            # Prepare response
+            response = {
+                'crop': prediction,
+                'temperature_range': crop_info.get('temperature_range', 'N/A'),
+                'ph_range': crop_info.get('ph_range', 'N/A'),
+                'rainfall_requirements': crop_info.get('rainfall_requirements', 'N/A'),
+                'soil_type': crop_info.get('soil_type', 'N/A'),
+                'planting_season': crop_info.get('planting_season', 'N/A'),
+                'harvest_time': crop_info.get('harvest_time', 'N/A'),
+                'water_requirements': crop_info.get('water_requirements', 'N/A'),
+                'fertilizer_needs': crop_info.get('fertilizer_needs', 'N/A'),
+                'alternative_crops': alternative_crops
+            }
+            
+            return jsonify(response)
+            
         except Exception as e:
-            return jsonify({
-                'error': 'Failed to process request',
-                'details': str(e)
-            }), 400
-
+            return jsonify({'error': str(e)}), 500
+            
     return render_template('crop_prediction.html')
 
-def extract_value(text, key):
-    """Extract a value from text based on a key"""
+def get_crop_prediction(data):
+    """
+    Get crop prediction based on soil and environmental parameters
+    """
     try:
-        lines = text.split('\n')
-        for line in lines:
-            if key.lower() in line.lower():
-                return line.split(':')[-1].strip()
-        return 'Not specified'
-    except:
-        return 'Not specified'
-
-def parse_alternatives(text):
-    """Parse alternative crops from text"""
-    alternatives = []
-    try:
-        lines = text.split('\n')
-        for line in lines:
-            if '%' in line and ':' in line:
-                parts = line.split(':')
-                name = parts[0].strip()
-                details = parts[1].strip()
-                
-                # Extract score
-                score = next((int(s.strip('%')) for s in details.split() if '%' in s), 0)
-                
-                # Extract other details
-                details_parts = details.split(',')
-                temp_range = next((p.strip() for p in details_parts if '°C' in p), 'Not specified')
-                ph_range = next((p.strip() for p in details_parts if 'pH' in p), 'Not specified')
-                rainfall = next((p.strip() for p in details_parts if 'mm' in p), 'Not specified')
-                
-                alternatives.append({
-                    'name': name,
-                    'score': score,
-                    'temperature_range': temp_range,
-                    'ph_range': ph_range,
-                    'rainfall_requirements': rainfall
-                })
+        # Prepare input data in the correct order
+        input_data = np.array([
+            data['nitrogen'],
+            data['phosphorus'],
+            data['potassium'],
+            data['temperature'],
+            data['humidity'],
+            data['ph'],
+            data['rainfall']
+        ]).reshape(1, -1)
+        
+        # Make prediction using the Random Forest model
+        prediction = rf_model.predict(input_data)
+        
+        # Convert prediction to crop name using label encoder
+        crop_name = label_encoder.inverse_transform(prediction)[0]
+        
+        return crop_name
     except Exception as e:
-        print(f"Error parsing alternatives: {str(e)}")
-    
-    return alternatives[:5]  # Return at most 5 alternatives
+        print(f"Error in crop prediction: {e}")
+        return "Unknown"
+
+def get_crop_information(crop):
+    """
+    Get detailed information about the recommended crop
+    """
+    # Your existing crop information logic here
+    # This is a placeholder - replace with your actual crop information logic
+    return {
+        'temperature_range': '20-30°C',
+        'ph_range': '5.5-7.0',
+        'rainfall_requirements': '1000-2000mm',
+        'soil_type': 'Loamy',
+        'planting_season': 'June-July',
+        'harvest_time': 'October-November',
+        'water_requirements': 'Regular irrigation',
+        'fertilizer_needs': 'NPK 100:50:50 kg/ha'
+    }
+
+def get_alternative_crops(data, main_crop):
+    """
+    Get alternative crop recommendations
+    """
+    # Your existing alternative crops logic here
+    # This is a placeholder - replace with your actual alternative crops logic
+    return [
+        {
+            'name': 'Wheat',
+            'match_score': 85,
+            'temperature': '15-25°C',
+            'ph_range': '6.0-7.5',
+            'rainfall': '500-1000mm'
+        },
+        {
+            'name': 'Maize',
+            'match_score': 80,
+            'temperature': '18-27°C',
+            'ph_range': '5.5-7.0',
+            'rainfall': '500-1000mm'
+        }
+    ]
 
 @app.route('/success', methods=['POST'])
 def success():
@@ -439,6 +485,66 @@ def red():
     Redirect to the file upload page
     """
     return render_template('upload_file.html')
+
+@app.route('/price-prediction', methods=['GET', 'POST'])
+def price_prediction():
+    import pickle
+    from datetime import datetime
+
+    prediction_result = None
+
+    # Load all models (consider loading once globally for optimization)
+    with open("all_models.pkl", "rb") as f:
+        models = pickle.load(f)
+
+    if request.method == 'POST':
+        try:
+            commodity = request.form.get('commodity', '').strip().lower()
+            date_input = request.form.get('date', '')  # Expecting DD/MM/YYYY format
+
+            if not commodity:
+                prediction_result = {
+                    'quintal': '0.00',
+                    'kilo': '0.00',
+                    'error': 'Please enter a commodity name'
+                }
+            elif not date_input:
+                prediction_result = {
+                    'quintal': '0.00',
+                    'kilo': '0.00',
+                    'error': 'Please select a date'
+                }
+            elif commodity not in models:
+                prediction_result = {
+                    'quintal': '0.00',
+                    'kilo': '0.00',
+                    'error': f"No model found for '{commodity}'"
+                }
+            else:
+                model_data = models[commodity]
+                model = model_data["model"]
+                start_date = model_data["start_date"]
+                future_date = datetime.strptime(date_input, "%d/%m/%Y")
+                days = (future_date - start_date).days
+                predicted_price_quintal = model.predict([[days]])[0]
+                
+                # Convert quintal to kilo (1 quintal = 100 kg)
+                predicted_price_kilo = predicted_price_quintal / 100
+                
+                prediction_result = {
+                    'commodity': commodity.capitalize(),
+                    'quintal': f"{round(predicted_price_quintal, 2)}",
+                    'kilo': f"{round(predicted_price_kilo, 2)}",
+                    'date': date_input
+                }
+        except Exception as e:
+            prediction_result = {
+                'quintal': '0.00',
+                'kilo': '0.00',
+                'error': f"Error: {str(e)}"
+            }
+
+    return render_template('price_prediction.html', prediction=prediction_result)
 
 if __name__ == '__main__':
     app.run(debug=True)

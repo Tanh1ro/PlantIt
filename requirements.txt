@@ -1,13 +1,65 @@
-requests==2.31.0
+# Core Dependencies
+# Flask - Web framework for building the application
 flask==2.3.3
-matplotlib==3.8.1
+# Werkzeug - WSGI utilities for Flask
 werkzeug==2.3.7
-sqlalchemy==2.0.25
-psycopg2-binary==2.9.9
-tensorflow==2.15.0
-numpy==1.26.4
-keras==2.15.0
-pillow==10.2.0
-h5py==3.10.0
-wheel==0.41.2
+# Gunicorn - Production-grade WSGI server
 gunicorn==21.2.0
+
+# Database Dependencies
+# SQLAlchemy - SQL toolkit and ORM
+sqlalchemy==2.0.25
+# PostgreSQL adapter for Python
+psycopg2-binary==2.9.9
+
+# Machine Learning & AI Dependencies
+# TensorFlow - Machine learning framework
+tensorflow==2.15.0
+# Keras - High-level neural networks API
+keras==2.15.0
+# NumPy - Numerical computing library
+numpy==1.26.4
+# scikit-learn - Machine learning library
+scikit-learn==1.3.2
+# joblib - Tools for saving and loading Python objects
+joblib==1.3.2
+
+# Image Processing
+# Pillow - Python Imaging Library
+pillow==10.2.0
+# h5py - HDF5 binary data format
+h5py==3.10.0
+
+# Web Scraping & Data Processing
+# Requests - HTTP library for making API calls
+requests==2.31.0
+# BeautifulSoup4 - HTML parsing library
+beautifulsoup4==4.12.2
+# Newspaper3k - Article scraping and curation
+newspaper3k==0.2.8
+# feedparser - RSS feed parsing
+feedparser==6.0.10
+
+# Data Visualization
+# Matplotlib - Plotting library
+matplotlib==3.8.1
+# Seaborn - Statistical data visualization
+seaborn==0.13.0
+
+# Development Tools
+# Wheel - Built-package format for Python
+wheel==0.41.2
+# pytest - Testing framework
+pytest==7.4.3
+# black - Code formatter
+black==23.11.0
+# flake8 - Code linter
+flake8==6.1.0
+
+# Google AI Integration
+# Google Generative AI - For AI-powered recommendations
+google-generativeai==0.3.1
+
+# Environment Management
+# python-dotenv - Environment variable management
+python-dotenv==1.0.0
