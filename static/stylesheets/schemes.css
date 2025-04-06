@@ -74,21 +74,189 @@ button[type="submit"]:hover {
 
 .recommendations {
     margin-top: 2rem;
-    padding: 1.5rem;
+    padding: 2rem;
     background: var(--content-bg);
-    border-radius: 8px;
+    border-radius: 12px;
     border-left: 4px solid var(--primary-color);
     box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .recommendations h3 {
     color: var(--primary-dark);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.recommendations h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
 }
 
 .recommendations p {
     color: var(--text-color);
     line-height: 1.6;
     font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.scheme-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card-header i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.card-header h4 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.card-body {
+    color: var(--text-color);
+}
+
+.card-body p {
+    margin-bottom: 1rem;
+}
+
+.benefits, .eligibility {
+    margin-top: 1rem;
+}
+
+.benefits h5, .eligibility h5 {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefits ul, .eligibility ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.benefits li, .eligibility li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefits li i, .eligibility li i {
+    color: var(--primary-color);
+}
+
+.card-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.apply-button, .details-button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.apply-button {
+    background: var(--primary-color);
+    color: white;
+}
+
+.details-button {
+    background: var(--content-bg);
+    color: var(--primary-dark);
+    border: 1px solid var(--border-color);
+}
+
+.apply-button:hover, .details-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button:hover {
+    background: var(--primary-dark);
+}
+
+.details-button:hover {
+    background: var(--border-color);
+}
+
+.no-recommendations {
+    text-align: center;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 10px;
+    border: 1px dashed var(--border-color);
+}
+
+.no-recommendations i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.no-recommendations p {
+    color: var(--text-color);
+    margin: 0;
 }

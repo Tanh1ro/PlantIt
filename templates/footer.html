@@ -4,7 +4,8 @@
   Features:
   - Responsive design with multiple sections
   - Quick links to important pages
-  - Contact information
+  - Contact information and social media
+  - Newsletter subscription
   - Copyright notice
   - Styled with footer.css
 -->
@@ -12,52 +13,118 @@
     <!-- Main Footer Content Container -->
     <div class="footer-content">
         <!-- Brand Section -->
-        <!-- Contains logo and brief description -->
-        <div class="footer-section">
+        <div class="footer-section brand-section">
             <img src="/static/images/logo-name.png" alt="Farmer's Assistant Logo" class="footer-logo"/>
             <p class="footer-description">Empowering farmers with smart agricultural solutions and real-time assistance.</p>
+            <!-- Social Media Links -->
+            <!-- <div class="social-links">
+                <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div> -->
         </div>
 
         <!-- Quick Links Section -->
-        <!-- Contains links to main sections of the application -->
         <div class="footer-section">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/crop_prediction">Crop Prediction</a></li>
-                <li><a href="/schemes">Government Schemes</a></li>
-                <li><a href="/about_us">About Us</a></li>
+                <li><a href="/" class="footer-link" data-route="/">Home</a></li>
+                <li><a href="/crop_prediction" class="footer-link" data-route="/crop_prediction">Crop Prediction</a></li>
+                <li><a href="/schemes" class="footer-link" data-route="/schemes">Government Schemes</a></li>
+                <li><a href="/about_us" class="footer-link" data-route="/about_us">About Us</a></li>
             </ul>
         </div>
 
         <!-- Resources Section -->
-        <!-- Contains links to utility features and tools -->
         <div class="footer-section">
             <h3>Resources</h3>
             <ul>
-                <li><a href="/news">Agricultural News</a></li>
-                <li><a href="/crop_input">Crop Analysis</a></li>
-                <li><a href="/upload_file">Soil Analysis</a></li>
-                <li><a href="/prediction">Market Predictions</a></li>
+                <li><a href="/news" class="footer-link" data-route="/news">Agricultural News</a></li>
+                <li><a href="/crop_input" class="footer-link" data-route="/crop_input">Crop Analysis</a></li>
+                <li><a href="/upload_file" class="footer-link" data-route="/upload_file">Soil Analysis</a></li>
+                <li><a href="/price_prediction" class="footer-link" data-route="/price_prediction">Market Predictions</a></li>
             </ul>
         </div>
 
         <!-- Contact Information Section -->
-        <!-- Contains contact details for support -->
         <div class="footer-section">
             <h3>Contact Us</h3>
-            <ul>
-                <li>Email: no-reply@there.com</li>
-                <li>Phone: +91 1234567890</li>
-                <li>Address: Bangalore, India</li>
+            <ul class="contact-info">
+                <li><i class="fas fa-envelope"></i> support@farmersassistant.com</li>
+                <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                <li><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka, India</li>
             </ul>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="footer-section newsletter-section">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to our newsletter for the latest agricultural insights and updates.</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
         </div>
     </div>
 
     <!-- Footer Bottom Section -->
-    <!-- Contains copyright information -->
     <div class="footer-bottom">
         <p>&copy; 2025 Farmer's Assistant. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="/privacy" class="footer-link" data-route="/privacy">Privacy Policy</a>
+            <a href="/terms" class="footer-link" data-route="/terms">Terms of Service</a>
+            <a href="/sitemap" class="footer-link" data-route="/sitemap">Sitemap</a>
+        </div>
     </div>
 </footer>
+
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Footer Routing Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all footer links
+    const footerLinks = document.querySelectorAll('.footer-link');
+    
+    // Add click event listener to each link
+    footerLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const route = this.getAttribute('data-route');
+            
+            // Use fetch to handle the routing
+            fetch(route)
+                .then(response => {
+                    if (response.ok) {
+                        // If the response is successful, navigate to the new page
+                        window.location.href = route;
+                    } else {
+                        console.error('Navigation failed:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error('Navigation error:', error);
+                });
+        });
+    });
+
+    // Handle newsletter form submission
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // Here you would typically send the email to your backend
+            console.log('Newsletter subscription:', email);
+            
+            // Show success message
+            alert('Thank you for subscribing to our newsletter!');
+            this.reset();
+        });
+    }
+});
+</script>
   
