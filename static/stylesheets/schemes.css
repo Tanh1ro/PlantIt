@@ -1,0 +1,262 @@
+.schemes-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+h2 {
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.scheme-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.scheme-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: var(--content-bg);
+    border-radius: 8px;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.scheme-option:hover {
+    transform: translateX(5px);
+    box-shadow: var(--box-shadow);
+    background-color: rgba(46, 125, 50, 0.05);
+}
+
+.scheme-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.scheme-option label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 2px 5px rgba(46, 125, 50, 0.3);
+    font-weight: 600;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.4);
+}
+
+.recommendations {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.recommendations h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.recommendations h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.recommendations p {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.scheme-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card-header i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.card-header h4 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.card-body {
+    color: var(--text-color);
+}
+
+.card-body p {
+    margin-bottom: 1rem;
+}
+
+.benefits, .eligibility {
+    margin-top: 1rem;
+}
+
+.benefits h5, .eligibility h5 {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefits ul, .eligibility ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.benefits li, .eligibility li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefits li i, .eligibility li i {
+    color: var(--primary-color);
+}
+
+.card-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.apply-button, .details-button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.apply-button {
+    background: var(--primary-color);
+    color: white;
+}
+
+.details-button {
+    background: var(--content-bg);
+    color: var(--primary-dark);
+    border: 1px solid var(--border-color);
+}
+
+.apply-button:hover, .details-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button:hover {
+    background: var(--primary-dark);
+}
+
+.details-button:hover {
+    background: var(--border-color);
+}
+
+.no-recommendations {
+    text-align: center;
+    padding: 2rem;
+    background: var(--content-bg);
+    border-radius: 10px;
+    border: 1px dashed var(--border-color);
+}
+
+.no-recommendations i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.no-recommendations p {
+    color: var(--text-color);
+    margin: 0;
+}
